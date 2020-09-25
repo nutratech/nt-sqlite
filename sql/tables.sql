@@ -16,26 +16,20 @@
 
 PRAGMA foreign_keys = 1;
 
-CREATE TABLE table_versions (
-  tablename text PRIMARY KEY,
-  version int NOT NULL
+CREATE TABLE test (
+  id blob text UNIQUE
 );
 
-INSERT INTO table_versions
-  VALUES ('table_versions', 1);
+CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL, created date NOT NULL, notes text
+);
+
+INSERT INTO version(version, created, notes)
+  VALUES ('0.0.0', '2020-09-22', 'initial release');
 
 --
 ---------------------------------
 -- Goals, equations, & statics
 ---------------------------------
-
-INSERT INTO table_versions
-  VALUES ('goals', 1), ('bmr_eqs', 1), ('bf_eqs', 1), ('lbm_eqs', 1);
-
-CREATE TABLE goals (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  goal_desc text
-);
 
 CREATE TABLE bmr_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
@@ -44,89 +38,29 @@ CREATE TABLE bmr_eqs (
 
 CREATE TABLE bf_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
-  bf_eq text DEFAULT 'NAVY' -- ['NAVY', '3SITE', '7SITE']
+  bf_eq text DEFAULT 'NAVY'
 );
-
-CREATE TABLE lbm_eqs (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  lbm_eq text
-);
-
-INSERT INTO goals (goal_desc)
-  VALUES ('LOSE'), ('GAIN'), ('MAINTAIN'), ('TRANSFORM');
-
-INSERT INTO bmr_eqs (bmr_eq)
-  VALUES ('HARRIS_BENEDICT'), ('KATCH_MACARDLE'), ('MIFFLIN_ST_JEOR'), ('CUNNINGHAM');
-
-INSERT INTO bf_eqs (bf_eq)
-  VALUES ('NAVY'), ('3SITE'), ('7SITE');
-
-INSERT INTO lbm_eqs (lbm_eq)
-  VALUES ('MARTIN_BERKHAN'), ('ERIC_HELMS'), ('CASEY_BUTT');
 
 --
 --------------------------------
--- Users and biometrics
+-- Users table
 --------------------------------
-
-INSERT INTO table_versions
-  VALUES ('users', 1), ('measurements', 1);
 
 CREATE TABLE users (
   id integer PRIMARY KEY AUTOINCREMENT,
-  name text NOT NULL,
+  name text NOT NULL UNIQUE,
   eula int DEFAULT 0,
-  email text,
+  email text UNIQUE,
   gender text,
   dob date,
   act_lvl int DEFAULT 2, -- [1, 2, 3, 4, 5]
-  goal_id int DEFAULT 3,
   goal_wt real,
   goal_bf real,
   bmr_id int DEFAULT 1,
   bf_id int DEFAULT 1,
-  lbm_id int DEFAULT 1,
   created int DEFAULT (strftime ('%s', 'now')),
-  UNIQUE (name),
-  UNIQUE (email),
-  FOREIGN KEY (goal_id) REFERENCES goals (id) ON UPDATE CASCADE,
   FOREIGN KEY (bmr_id) REFERENCES bmr_eqs (id) ON UPDATE CASCADE,
-  FOREIGN KEY (bf_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE,
-  FOREIGN KEY (lbm_id) REFERENCES lbm_eqs (id) ON UPDATE CASCADE
-);
-
-CREATE TABLE measurements (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  user_id int NOT NULL,
-  -- Mass (kg)
-  weight real,
-  -- Kinostatics (cm)
-  height int,
-  wrist real,
-  ankle real,
-  -- Tape Measurements (cm)
-  chest real,
-  arm real,
-  thigh real,
-  calf real,
-  shoulders real,
-  waist real,
-  hips real,
-  neck real,
-  forearm real,
-  -- Skin Manifolds (mm)
-  pectoral int,
-  abdominal int,
-  quadricep int,
-  midaxillary int,
-  subscapular int,
-  tricep int,
-  suprailiac int,
-  -- Times
-  date date DEFAULT CURRENT_DATE,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+  FOREIGN KEY (bf_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE
 );
 
 --
@@ -134,25 +68,21 @@ CREATE TABLE measurements (
 -- Biometrics
 --------------------------------
 
-INSERT INTO table_versions
-  VALUES ('biometrics', 1), ('biometric_log', 1);
-
 CREATE TABLE biometrics (
   id integer PRIMARY KEY AUTOINCREMENT,
-  user_id int,
-  name text NOT NULL,
-  units text NOT NULL,
-  created int DEFAULT (strftime ('%s', 'now')),
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+  tag text NOT NULL UNIQUE,
+  name text NOT NULL UNIQUE,
+  unit text,
+  created int DEFAULT (strftime ('%s', 'now'))
 );
 
 CREATE TABLE biometric_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   user_id int NOT NULL,
+  date date DEFAULT CURRENT_DATE,
   biometric_id int NOT NULL,
   value real NOT NULL,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int,
+  UNIQUE (user_id, date, biometric_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (biometric_id) REFERENCES biometrics (id) ON UPDATE CASCADE
 );
@@ -162,27 +92,11 @@ CREATE TABLE biometric_log (
 -- Recipes
 --------------------------------
 
-INSERT INTO table_versions
-  VALUES ('recipes', 1), ('recipe_dat', 1), ('recipe_serv', 1);
-
 CREATE TABLE recipes (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL,
-  user_id int NOT NULL,
   shared int DEFAULT 1,
-  created int DEFAULT (strftime ('%s', 'now')),
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
-);
-
-CREATE TABLE recipe_dat (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  recipe_id int NOT NULL,
-  -- TODO: enforce FK constraint across two DBs?
-  food_id int NOT NULL,
-  msre_id int NOT NULL,
-  amount real NOT NULL,
-  created int DEFAULT (strftime ('%s', 'now')),
-  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
+  created int DEFAULT (strftime ('%s', 'now'))
 );
 
 CREATE TABLE recipe_serv (
@@ -190,8 +104,18 @@ CREATE TABLE recipe_serv (
   recipe_id int NOT NULL,
   msre_desc text NOT NULL,
   grams real NOT NULL,
-  created int DEFAULT (strftime ('%s', 'now')),
   FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
+);
+
+CREATE TABLE recipe_dat (
+  recipe_id int NOT NULL,
+  -- TODO: enforce FK constraint across two DBs?
+  food_id int NOT NULL,
+  msre_id int NOT NULL,
+  amount real NOT NULL,
+  UNIQUE (recipe_id, food_id),
+  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE,
+  FOREIGN KEY (msre_id) REFERENCES recipe_serv (id) ON UPDATE CASCADE
 );
 
 --
@@ -199,22 +123,44 @@ CREATE TABLE recipe_serv (
 -- Food logs
 --------------------------------
 
-INSERT INTO table_versions
-  VALUES ('food_log', 1);
+CREATE TABLE meal_names (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  name text NOT NULL
+);
+
+INSERT INTO meal_names (name)
+  VALUES ('BREAKFAST'), ('LUNCH'), ('DINNER'), ('SNACK');
 
 CREATE TABLE food_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   user_id int,
   date date DEFAULT CURRENT_DATE,
-  meal_name text,
+  meal_id int,
   amount real NOT NULL,
   recipe_id int,
+  rec_msre_id int,
   -- TODO: enforce FK constraint across two DBs?
-  msre_id int,
   food_id int,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int,
+  food_msre_id int,
+  UNIQUE (user_id, date, meal_id, recipe_id),
+  UNIQUE (user_id, date, meal_id, food_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
-  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
+  FOREIGN KEY (meal_id) REFERENCES meal_names (id) ON UPDATE CASCADE,
+  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE,
+  FOREIGN KEY (rec_msre_id) REFERENCES recipe_serv (id) ON UPDATE CASCADE
+);
+
+--
+--------------------------------
+-- Custom RDAs
+--------------------------------
+
+CREATE TABLE rda (
+  id integer PRIMARY KEY,
+  user_id integer NOT NULL,
+  -- TODO: enforce FK constraint across two DBs?
+  nutr_id integer NOT NULL,
+  rda real NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 

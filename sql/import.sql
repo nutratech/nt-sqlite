@@ -16,9 +16,11 @@
 
 .mode csv
 
-PRAGMA foreign_keys = 0;
+.import '| tail -n +2 ./data/bmr_eqs.csv' bmr_eqs
+.import '| tail -n +2 ./data/bf_eqs.csv' bf_eqs
+
 .import '| tail -n +2 ./data/biometrics.csv' biometrics
-PRAGMA foreign_keys = 1;
+.import '| tail -n +2 ./data/users.csv' users
 
 .header on
 .mode column

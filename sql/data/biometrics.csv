@@ -1,21 +1,30 @@
-id,user_id,name,units,created
-1,,Weight,"kg,lbs",1580336088
-2,,Height,"cm,in",1580336088
-3,,Pulse,bpm,1580336088
-4,,Systolic Blood Pressure,mmHg,1580336088
-5,,Diastolic Blood Pressure,mmHg,1580336088
-6,,Blood Glucose,"mmol/L,mg/dL",1580336088
-7,,Body Temperature,"C,F",1580336088
-8,,Body Fat,%,1580336088
-9,,Waist Size,"cm,in",1580336088
-10,,Total Cholesterol,"mmol/L,mg/dL",1580336088
-11,,LDL Cholesterol,"mmol/L,mg/dL",1580336088
-12,,HDL Cholesterol,"mmol/L,mg/dL",1580336088
-13,,Triglycerides,"mmol/L,mg/dL",1580336088
-14,,Ketones (Blood),"mmol/L,mg/dL",1580336088
-15,,Ketones (Urine),"mmol/L,mg/dL",1580336088
-16,,Ketones (Breath),"mmol/L,mg/dL,ppm",1580336088
-17,,Sleep,"min,hr",1580336088
-18,,25-Hydroxy Vitamin D,"ng/mL,nmol/L",1580336088
-19,,Ferritin,"ng/mL,pmol/L",1580336088
-20,,Pulsewave Velocity,PWV,1580336088
+id,tag,name,unit,created
+1,ht,Height,cm,1580336088
+2,wt,Weight,kg,1580336088
+3,wrist,Wrist,cm,1580336088
+4,ankle,Ankle,cm,1580336088
+5,chest,Chest,cm,1580336088
+6,arm,Upper Arm,cm,1580336088
+7,thigh,Thigh,cm,1580336088
+8,calf,Calf,cm,1580336088
+9,shoulders,Shoulders,cm,1580336088
+10,waist,Waist,cm,1580336088
+11,hips,Hips,cm,1580336088
+12,neck,Neck,cm,1580336088
+13,forearm,Forearm,cm,1580336088
+14,pectoral,Pectoral,mm,1580336088
+15,abdominal,Abdominal,mm,1580336088
+16,quadricep,Quadricep,mm,1580336088
+17,midaxillary,Midaxillary,mm,1580336088
+18,subscapular,Subscapular,mm,1580336088
+19,tricep,Tricep,mm,1580336088
+20,suprailiac,Suprailiac,mm,1580336088
+21,custom_bf,Body Fat,,1580336088
+22,pulse,Pulse,bpm,1580336088
+23,systolic,Systolic Blood Pressure,mmHg,1580336088
+24,diastolic,Diastolic Blood Pressure,mmHg,1580336088
+25,glucose,Blood Glucose,mg/dL,1580336088
+26,cholest_tot,Total Cholesterol,mg/dL,1580336088
+27,cholest_ldl,LDL Cholesterol,mg/dL,1580336088
+28,cholest_hdl,HDL Cholesterol,mg/dL,1580336088
+29,triglycerides,Triglycerides,mg/dL,1580336088
