@@ -16,10 +16,6 @@
 
 PRAGMA foreign_keys = 1;
 
-CREATE TABLE test (
-  id blob text UNIQUE
-);
-
 CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL, created date NOT NULL, notes text
 );
 
@@ -28,7 +24,7 @@ INSERT INTO version(version, created, notes)
 
 --
 ---------------------------------
--- Goals, equations, & statics
+-- Equations
 ---------------------------------
 
 CREATE TABLE bmr_eqs (
@@ -38,7 +34,7 @@ CREATE TABLE bmr_eqs (
 
 CREATE TABLE bf_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
-  bf_eq text DEFAULT 'NAVY'
+  bf_eq text
 );
 
 --
@@ -49,8 +45,9 @@ CREATE TABLE bf_eqs (
 CREATE TABLE users (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE,
+  guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
+  created int DEFAULT (strftime ('%s', 'now')),
   eula int DEFAULT 0,
-  email text UNIQUE,
   gender text,
   dob date,
   act_lvl int DEFAULT 2, -- [1, 2, 3, 4, 5]
@@ -58,7 +55,6 @@ CREATE TABLE users (
   goal_bf real,
   bmr_id int DEFAULT 1,
   bf_id int DEFAULT 1,
-  created int DEFAULT (strftime ('%s', 'now')),
   FOREIGN KEY (bmr_id) REFERENCES bmr_eqs (id) ON UPDATE CASCADE,
   FOREIGN KEY (bf_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE
 );
@@ -69,8 +65,8 @@ CREATE TABLE users (
 --------------------------------
 
 CREATE TABLE biometrics (
+  -- TODO: support custom biometrics and sync?
   id integer PRIMARY KEY AUTOINCREMENT,
-  tag text NOT NULL UNIQUE,
   name text NOT NULL UNIQUE,
   unit text,
   created int DEFAULT (strftime ('%s', 'now'))
@@ -78,11 +74,11 @@ CREATE TABLE biometrics (
 
 CREATE TABLE biometric_log (
   id integer PRIMARY KEY AUTOINCREMENT,
+  guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   user_id int NOT NULL,
   date date DEFAULT CURRENT_DATE,
   biometric_id int NOT NULL,
   value real NOT NULL,
-  UNIQUE (user_id, date, biometric_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (biometric_id) REFERENCES biometrics (id) ON UPDATE CASCADE
 );
@@ -94,33 +90,24 @@ CREATE TABLE biometric_log (
 
 CREATE TABLE recipes (
   id integer PRIMARY KEY AUTOINCREMENT,
-  name text NOT NULL,
-  shared int DEFAULT 1,
-  created int DEFAULT (strftime ('%s', 'now'))
-);
-
-CREATE TABLE recipe_serv (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  recipe_id int NOT NULL,
-  msre_desc text NOT NULL,
-  grams real NOT NULL,
-  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
+  guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
+  created int DEFAULT (strftime ('%s', 'now')),
+  name text NOT NULL
 );
 
 CREATE TABLE recipe_dat (
   recipe_id int NOT NULL,
   -- TODO: enforce FK constraint across two DBs?
   food_id int NOT NULL,
-  msre_id int NOT NULL,
-  amount real NOT NULL,
+  grams real NOT NULL,
+  notes text,
   UNIQUE (recipe_id, food_id),
-  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE,
-  FOREIGN KEY (msre_id) REFERENCES recipe_serv (id) ON UPDATE CASCADE
+  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
 );
 
 --
 --------------------------------
--- Food logs
+-- Food (and recipe) logs
 --------------------------------
 
 CREATE TABLE meal_names (
@@ -128,26 +115,32 @@ CREATE TABLE meal_names (
   name text NOT NULL
 );
 
-INSERT INTO meal_names (name)
-  VALUES ('BREAKFAST'), ('LUNCH'), ('DINNER'), ('SNACK');
-
 CREATE TABLE food_log (
   id integer PRIMARY KEY AUTOINCREMENT,
+  guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   user_id int,
   date date DEFAULT CURRENT_DATE,
   meal_id int,
-  amount real NOT NULL,
-  recipe_id int,
-  rec_msre_id int,
+  amount real NOT NULL, -- grams, if `food_msre_id` IS NULL
   -- TODO: enforce FK constraint across two DBs?
+
   food_id int,
   food_msre_id int,
-  UNIQUE (user_id, date, meal_id, recipe_id),
-  UNIQUE (user_id, date, meal_id, food_id),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
+  FOREIGN KEY (meal_id) REFERENCES meal_names (id) ON UPDATE CASCADE
+);
+
+CREATE TABLE recipe_log (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
+  user_id int,
+  date date DEFAULT CURRENT_DATE,
+  meal_id int,
+  grams real NOT NULL,
+  recipe_id int,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (meal_id) REFERENCES meal_names (id) ON UPDATE CASCADE,
-  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE,
-  FOREIGN KEY (rec_msre_id) REFERENCES recipe_serv (id) ON UPDATE CASCADE
+  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
 );
 
 --
@@ -156,11 +149,34 @@ CREATE TABLE food_log (
 --------------------------------
 
 CREATE TABLE rda (
-  id integer PRIMARY KEY,
-  user_id integer NOT NULL,
+  user_id int NOT NULL,
   -- TODO: enforce FK constraint across two DBs?
-  nutr_id integer NOT NULL,
+  nutr_id int NOT NULL,
   rda real NOT NULL,
+  synced int DEFAULT 0,
+  UNIQUE (user_id, nutr_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+);
+
+CREATE TRIGGER rda_sync
+  AFTER UPDATE OF rda ON rda
+BEGIN
+  UPDATE rda SET synced = 0
+WHERE
+  NEW.user_id = user_id AND NEW.nutr_id = nutr_id;
+
+END;
+
+--
+--------------------------------
+-- Custom RDAs
+--------------------------------
+
+CREATE TABLE sync_data (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  tablename text NOT NULL,
+  guid text,
+  `constraint` text, -- e.g. "(a, b)" in "UNIQUE (a, b)" or "ON CONFLICT (a, b) DO ..."
+  action text NOT NULL -- insert, delete, update
 );
 
