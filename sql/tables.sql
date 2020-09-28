@@ -121,11 +121,9 @@ CREATE TABLE food_log (
   user_id int,
   date date DEFAULT CURRENT_DATE,
   meal_id int,
-  amount real NOT NULL, -- grams, if `food_msre_id` IS NULL
+  grams real NOT NULL,
   -- TODO: enforce FK constraint across two DBs?
-
   food_id int,
-  food_msre_id int,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (meal_id) REFERENCES meal_names (id) ON UPDATE CASCADE
 );

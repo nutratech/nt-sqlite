@@ -1,4 +1,4 @@
-recipe_id,food_id,amount,notes
+recipe_id,food_id,grams,notes
 1,20045,180,white rice
 1,16042,25,pinto beans
 1,11282,45,onions
