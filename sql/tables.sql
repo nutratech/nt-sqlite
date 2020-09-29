@@ -76,13 +76,20 @@ CREATE TABLE biometric_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   user_id int NOT NULL,
-  date date DEFAULT CURRENT_DATE,
-  biometric_id int NOT NULL,
-  value real NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
-  FOREIGN KEY (biometric_id) REFERENCES biometrics (id) ON UPDATE CASCADE
+  date int DEFAULT (strftime ('%s', 'now')),
+  notes text,
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
+
+CREATE TABLE bio_log_entry (
+  log_id int NOT NULL,
+  biometric_id int NOT NULL,
+  value real NOT NULL,
+  PRIMARY KEY (log_id, biometric_id),
+  FOREIGN KEY (log_id) REFERENCES biometric_log (id) ON UPDATE CASCADE,
+  FOREIGN KEY (biometric_id) REFERENCES biometrics (id) ON UPDATE CASCADE
+);
 --
 --------------------------------
 -- Recipes
@@ -101,7 +108,7 @@ CREATE TABLE recipe_dat (
   food_id int NOT NULL,
   grams real NOT NULL,
   notes text,
-  UNIQUE (recipe_id, food_id),
+  PRIMARY KEY (recipe_id, food_id),
   FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
 );
 
@@ -152,7 +159,7 @@ CREATE TABLE rda (
   nutr_id int NOT NULL,
   rda real NOT NULL,
   synced int DEFAULT 0,
-  UNIQUE (user_id, nutr_id),
+  PRIMARY KEY (user_id, nutr_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 

@@ -29,5 +29,8 @@
 
 .import '| tail -n +2 ./data/food_log.csv' food_log
 
+.import '| tail -n +2 ./data/biometric_log.csv' biometric_log
+.import '| tail -n +2 ./data/bio_log_entry.csv' bio_log_entry
+
 .header on
 .mode column
