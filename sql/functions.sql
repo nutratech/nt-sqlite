@@ -5,14 +5,7 @@
 SELECT
   users.name,
   date,
-  (
-    SELECT
-      ROUND(value * 2.204, 1)
-    FROM
-      bio_log_entry
-    WHERE
-      biometric_id = 2
-      AND log_id = biometric_log.id) AS weight,
+  ROUND(bio_log_entry.value * 2.204, 1) AS weight,
   tags,
   notes
 FROM
@@ -32,38 +25,47 @@ SELECT DISTINCT
   users.name,
   tags,
   notes,
-  (
-    SELECT
-      CAST(value AS int)
-    FROM
-      bio_log_entry
-    WHERE
-      biometric_id = 23
-      AND log_id = biometric_log.id) || '/' || (
-    SELECT
-      CAST(value AS int)
-    FROM
-      bio_log_entry
-    WHERE
-      biometric_id = 24
-      AND log_id = biometric_log.id) AS pressure,
-  (
-    SELECT
-      CAST(value AS int)
-    FROM
-      bio_log_entry
-    WHERE
-      biometric_id = 22
-      AND log_id = biometric_log.id) AS pulse
+  CAST(sys.value AS int) || '/' || CAST(dia.value AS int) AS pressure,
+  CAST(pulse.value AS int) AS pulse
 FROM
   biometric_log
   INNER JOIN users ON user_id = users.id
-  INNER JOIN bio_log_entry ON biometric_id IN (22,
-    23,
-    24)
-    AND log_id = biometric_log.id
+  INNER JOIN bio_log_entry pulse ON pulse.biometric_id = 22
+    AND pulse.log_id = biometric_log.id
+  INNER JOIN bio_log_entry sys ON sys.biometric_id = 23
+    AND sys.log_id = biometric_log.id
+  INNER JOIN bio_log_entry dia ON dia.biometric_id = 24
+    AND dia.log_id = biometric_log.id
 WHERE
   users.name = 'Mark';
+
+--------------------------------
+-- Meas, skinfolds, statics
+--------------------------------
+
+SELECT
+  date,
+  users.name,
+  height.value AS height,
+  wrist.value AS wrist,
+  ankle.value AS ankle
+FROM
+  biometric_log
+  INNER JOIN users ON user_id = users.id
+  LEFT JOIN bio_log_entry height ON height.biometric_id = 1
+    AND height.log_id = biometric_log.id
+  LEFT JOIN bio_log_entry wrist ON wrist.biometric_id = 3
+    AND wrist.log_id = biometric_log.id
+  LEFT JOIN bio_log_entry ankle ON ankle.biometric_id = 4
+    AND ankle.log_id = biometric_log.id
+WHERE
+  height.value
+  OR wrist.value
+  OR ankle.value;
+
+--------------------------------
+-- OLD: pulse/bp
+--------------------------------
 
 SELECT
   date,
