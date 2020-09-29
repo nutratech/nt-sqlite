@@ -40,7 +40,7 @@ WHERE
   users.name = 'Mark';
 
 --------------------------------
--- Meas, skinfolds, statics
+-- Height, wrist, ankle
 --------------------------------
 
 SELECT
@@ -62,6 +62,35 @@ WHERE
   height.value
   OR wrist.value
   OR ankle.value;
+
+
+--------------------------------
+-- Measurements (cm)
+--------------------------------
+
+SELECT
+  date,
+  users.name,
+  chest.value AS chest
+  -- thigh.value AS thigh,
+  -- calf.value AS calf,
+  -- shoulders.value AS shoulders,
+  -- waist.value AS waist,
+  -- hips.value AS hips,
+  -- neck.value AS neck,
+  -- forearm.value AS forearm
+FROM
+  biometric_log
+  INNER JOIN users ON user_id = users.id
+  LEFT JOIN bio_log_entry chest ON chest.biometric_id = 5
+    AND chest.log_id = biometric_log.id
+  WHERE
+  chest.value;
+
+
+--------------------------------
+-- Skinfolds (mm)
+--------------------------------
 
 --------------------------------
 -- OLD: pulse/bp
