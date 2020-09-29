@@ -33,8 +33,8 @@
 <polyline fill="none" stroke="black" points="0.26,-852.54 144.26,-852.54 "/>
 <text text-anchor="start" x="7.26" y="-838.94" font-family="Helvetica,sans-Serif" font-size="12.00">id* </text>
 <text text-anchor="start" x="28.26" y="-838.94" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">integer</text>
-<text text-anchor="start" x="7.26" y="-821.94" font-family="Helvetica,sans-Serif" font-size="12.00">bmr_eq </text>
-<text text-anchor="start" x="57.26" y="-821.94" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
+<text text-anchor="start" x="7.26" y="-821.94" font-family="Helvetica,sans-Serif" font-size="12.00">name </text>
+<text text-anchor="start" x="46.26" y="-821.94" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
 </g>
 <!-- bf_eqs -->
 <g id="node3" class="node">
@@ -44,8 +44,8 @@
 <polyline fill="none" stroke="black" points="580.22,-575.74 724.22,-575.74 "/>
 <text text-anchor="start" x="587.22" y="-562.14" font-family="Helvetica,sans-Serif" font-size="12.00">id* </text>
 <text text-anchor="start" x="608.22" y="-562.14" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">integer</text>
-<text text-anchor="start" x="587.22" y="-545.14" font-family="Helvetica,sans-Serif" font-size="12.00">bf_eq </text>
-<text text-anchor="start" x="624.22" y="-545.14" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
+<text text-anchor="start" x="587.22" y="-545.14" font-family="Helvetica,sans-Serif" font-size="12.00">name </text>
+<text text-anchor="start" x="626.22" y="-545.14" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
 </g>
 <!-- users -->
 <g id="node4" class="node">
@@ -73,10 +73,10 @@
 <text text-anchor="start" x="324.12" y="-679.56" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
 <text text-anchor="start" x="274.12" y="-662.56" font-family="Helvetica,sans-Serif" font-size="12.00">goal_bf </text>
 <text text-anchor="start" x="322.12" y="-662.56" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
-<text text-anchor="start" x="274.12" y="-645.56" font-family="Helvetica,sans-Serif" font-size="12.00">bmr_id </text>
-<text text-anchor="start" x="320.12" y="-645.56" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
-<text text-anchor="start" x="274.12" y="-628.56" font-family="Helvetica,sans-Serif" font-size="12.00">bf_id </text>
-<text text-anchor="start" x="307.12" y="-628.56" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="274.12" y="-645.56" font-family="Helvetica,sans-Serif" font-size="12.00">bmr_eq_id </text>
+<text text-anchor="start" x="341.12" y="-645.56" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="274.12" y="-628.56" font-family="Helvetica,sans-Serif" font-size="12.00">bf_eq_id </text>
+<text text-anchor="start" x="328.12" y="-628.56" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
 </g>
 <!-- users&#45;&gt;bmr_eqs -->
 <g id="edge2" class="edge">
@@ -108,19 +108,21 @@
 <!-- biometric_log -->
 <g id="node6" class="node">
 <title>biometric_log</title>
-<path fill="none" stroke="black" d="M539.76,-886.43C539.76,-886.43 659.76,-886.43 659.76,-886.43 665.76,-886.43 671.76,-892.43 671.76,-898.43 671.76,-898.43 671.76,-995.43 671.76,-995.43 671.76,-1001.43 665.76,-1007.43 659.76,-1007.43 659.76,-1007.43 539.76,-1007.43 539.76,-1007.43 533.76,-1007.43 527.76,-1001.43 527.76,-995.43 527.76,-995.43 527.76,-898.43 527.76,-898.43 527.76,-892.43 533.76,-886.43 539.76,-886.43"/>
-<text text-anchor="start" x="549.76" y="-987.03" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="13.00">biometric_log</text>
-<polyline fill="none" stroke="black" points="527.76,-977.43 671.76,-977.43 "/>
-<text text-anchor="start" x="534.76" y="-963.33" font-family="Helvetica,sans-Serif" font-size="12.00">id* </text>
-<text text-anchor="start" x="555.76" y="-963.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">integer</text>
-<text text-anchor="start" x="534.76" y="-946.33" font-family="Helvetica,sans-Serif" font-size="12.00">guid </text>
-<text text-anchor="start" x="564.76" y="-946.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
-<text text-anchor="start" x="534.76" y="-929.33" font-family="Helvetica,sans-Serif" font-size="12.00">user_id </text>
-<text text-anchor="start" x="581.76" y="-929.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
-<text text-anchor="start" x="534.76" y="-912.33" font-family="Helvetica,sans-Serif" font-size="12.00">date </text>
-<text text-anchor="start" x="565.76" y="-912.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
-<text text-anchor="start" x="534.76" y="-895.33" font-family="Helvetica,sans-Serif" font-size="12.00">notes </text>
-<text text-anchor="start" x="571.76" y="-895.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
+<path fill="none" stroke="black" d="M539.76,-877.93C539.76,-877.93 659.76,-877.93 659.76,-877.93 665.76,-877.93 671.76,-883.93 671.76,-889.93 671.76,-889.93 671.76,-1003.93 671.76,-1003.93 671.76,-1009.93 665.76,-1015.93 659.76,-1015.93 659.76,-1015.93 539.76,-1015.93 539.76,-1015.93 533.76,-1015.93 527.76,-1009.93 527.76,-1003.93 527.76,-1003.93 527.76,-889.93 527.76,-889.93 527.76,-883.93 533.76,-877.93 539.76,-877.93"/>
+<text text-anchor="start" x="549.76" y="-995.53" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="13.00">biometric_log</text>
+<polyline fill="none" stroke="black" points="527.76,-985.93 671.76,-985.93 "/>
+<text text-anchor="start" x="534.76" y="-972.33" font-family="Helvetica,sans-Serif" font-size="12.00">id* </text>
+<text text-anchor="start" x="555.76" y="-972.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">integer</text>
+<text text-anchor="start" x="534.76" y="-955.33" font-family="Helvetica,sans-Serif" font-size="12.00">guid </text>
+<text text-anchor="start" x="564.76" y="-955.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
+<text text-anchor="start" x="534.76" y="-938.33" font-family="Helvetica,sans-Serif" font-size="12.00">user_id </text>
+<text text-anchor="start" x="581.76" y="-938.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="534.76" y="-921.33" font-family="Helvetica,sans-Serif" font-size="12.00">date </text>
+<text text-anchor="start" x="565.76" y="-921.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="534.76" y="-904.33" font-family="Helvetica,sans-Serif" font-size="12.00">tags </text>
+<text text-anchor="start" x="564.76" y="-904.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
+<text text-anchor="start" x="534.76" y="-887.33" font-family="Helvetica,sans-Serif" font-size="12.00">notes </text>
+<text text-anchor="start" x="571.76" y="-887.33" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
 </g>
 <!-- biometric_log&#45;&gt;users -->
 <g id="edge3" class="edge">
@@ -150,8 +152,8 @@
 <!-- bio_log_entry&#45;&gt;biometric_log -->
 <g id="edge5" class="edge">
 <title>bio_log_entry&#45;&gt;biometric_log</title>
-<path fill="none" stroke="black" stroke-width="0.9" d="M610.92,-1147.95C608.88,-1111.26 605.94,-1058.22 603.59,-1015.84"/>
-<polygon fill="black" stroke="black" stroke-width="0.9" points="606.38,-1015.61 603.14,-1007.78 600.79,-1015.92 606.38,-1015.61"/>
+<path fill="none" stroke="black" stroke-width="0.9" d="M610.92,-1147.95C609.02,-1113.66 606.32,-1065.08 604.06,-1024.27"/>
+<polygon fill="black" stroke="black" stroke-width="0.9" points="606.85,-1024.05 603.61,-1016.22 601.26,-1024.36 606.85,-1024.05"/>
 </g>
 <!-- recipes -->
 <g id="node8" class="node">
@@ -189,11 +191,11 @@
 <path fill="none" stroke="black" stroke-width="0.9" d="M521.92,-104.26C511.99,-113.15 501.63,-122.43 491.56,-131.46"/>
 <polygon fill="black" stroke="black" stroke-width="0.9" points="489.43,-129.61 485.34,-137.04 493.16,-133.78 489.43,-129.61"/>
 </g>
-<!-- meal_names -->
+<!-- meals -->
 <g id="node10" class="node">
-<title>meal_names</title>
+<title>meals</title>
 <path fill="none" stroke="black" d="M15.94,-277.55C15.94,-277.55 135.94,-277.55 135.94,-277.55 141.94,-277.55 147.94,-283.55 147.94,-289.55 147.94,-289.55 147.94,-335.55 147.94,-335.55 147.94,-341.55 141.94,-347.55 135.94,-347.55 135.94,-347.55 15.94,-347.55 15.94,-347.55 9.94,-347.55 3.94,-341.55 3.94,-335.55 3.94,-335.55 3.94,-289.55 3.94,-289.55 3.94,-283.55 9.94,-277.55 15.94,-277.55"/>
-<text text-anchor="start" x="30.94" y="-327.15" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="13.00">meal_names</text>
+<text text-anchor="start" x="53.94" y="-327.15" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="13.00">meals</text>
 <polyline fill="none" stroke="black" points="3.94,-317.55 147.94,-317.55 "/>
 <text text-anchor="start" x="10.94" y="-303.95" font-family="Helvetica,sans-Serif" font-size="12.00">id* </text>
 <text text-anchor="start" x="31.94" y="-303.95" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">integer</text>
@@ -216,10 +218,10 @@
 <text text-anchor="start" x="57.32" y="-518.98" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">date</text>
 <text text-anchor="start" x="26.32" y="-501.98" font-family="Helvetica,sans-Serif" font-size="12.00">meal_id </text>
 <text text-anchor="start" x="77.32" y="-501.98" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
-<text text-anchor="start" x="26.32" y="-484.98" font-family="Helvetica,sans-Serif" font-size="12.00">grams </text>
-<text text-anchor="start" x="69.32" y="-484.98" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
-<text text-anchor="start" x="26.32" y="-467.98" font-family="Helvetica,sans-Serif" font-size="12.00">food_id </text>
-<text text-anchor="start" x="74.32" y="-467.98" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="26.32" y="-484.98" font-family="Helvetica,sans-Serif" font-size="12.00">food_id </text>
+<text text-anchor="start" x="74.32" y="-484.98" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="26.32" y="-467.98" font-family="Helvetica,sans-Serif" font-size="12.00">grams </text>
+<text text-anchor="start" x="69.32" y="-467.98" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
 </g>
 <!-- food_log&#45;&gt;users -->
 <g id="edge8" class="edge">
@@ -227,9 +229,9 @@
 <path fill="none" stroke="black" stroke-width="0.9" d="M163.33,-595.45C193.74,-620.31 229.25,-649.34 260.37,-674.78"/>
 <polygon fill="black" stroke="black" stroke-width="0.9" points="258.97,-677.25 266.93,-680.15 262.51,-672.92 258.97,-677.25"/>
 </g>
-<!-- food_log&#45;&gt;meal_names -->
+<!-- food_log&#45;&gt;meals -->
 <g id="edge7" class="edge">
-<title>food_log&#45;&gt;meal_names</title>
+<title>food_log&#45;&gt;meals</title>
 <path fill="none" stroke="black" stroke-width="0.9" d="M85.98,-458.85C83.62,-424.46 80.93,-385.3 78.93,-356.15"/>
 <polygon fill="black" stroke="black" stroke-width="0.9" points="81.7,-355.61 78.36,-347.82 76.12,-356 81.7,-355.61"/>
 </g>
@@ -249,10 +251,10 @@
 <text text-anchor="start" x="272.24" y="-407.55" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">date</text>
 <text text-anchor="start" x="241.24" y="-390.55" font-family="Helvetica,sans-Serif" font-size="12.00">meal_id </text>
 <text text-anchor="start" x="292.24" y="-390.55" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
-<text text-anchor="start" x="241.24" y="-373.55" font-family="Helvetica,sans-Serif" font-size="12.00">grams </text>
-<text text-anchor="start" x="284.24" y="-373.55" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
-<text text-anchor="start" x="241.24" y="-356.55" font-family="Helvetica,sans-Serif" font-size="12.00">recipe_id </text>
-<text text-anchor="start" x="299.24" y="-356.55" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="241.24" y="-373.55" font-family="Helvetica,sans-Serif" font-size="12.00">recipe_id </text>
+<text text-anchor="start" x="299.24" y="-373.55" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="241.24" y="-356.55" font-family="Helvetica,sans-Serif" font-size="12.00">grams </text>
+<text text-anchor="start" x="284.24" y="-356.55" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
 </g>
 <!-- recipe_log&#45;&gt;users -->
 <g id="edge11" class="edge">
@@ -266,9 +268,9 @@
 <path fill="none" stroke="black" stroke-width="0.9" d="M346.03,-347.52C362.48,-315.44 381.25,-278.82 396.6,-248.88"/>
 <polygon fill="black" stroke="black" stroke-width="0.9" points="399.27,-249.81 400.42,-241.41 394.28,-247.26 399.27,-249.81"/>
 </g>
-<!-- recipe_log&#45;&gt;meal_names -->
+<!-- recipe_log&#45;&gt;meals -->
 <g id="edge10" class="edge">
-<title>recipe_log&#45;&gt;meal_names</title>
+<title>recipe_log&#45;&gt;meals</title>
 <path fill="none" stroke="black" stroke-width="0.9" d="M234,-389.83C209.03,-377.62 180.91,-363.87 155.39,-351.4"/>
 <polygon fill="black" stroke="black" stroke-width="0.9" points="156.34,-348.74 147.92,-347.74 153.88,-353.77 156.34,-348.74"/>
 </g>

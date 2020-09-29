@@ -3,17 +3,18 @@
 --------------------------------
 
 SELECT
-  date,
   users.name,
-  notes,
+  date,
   (
     SELECT
-      value
+      ROUND(value * 2.204, 1)
     FROM
       bio_log_entry
     WHERE
       biometric_id = 2
-      AND log_id = biometric_log.id) AS weight
+      AND log_id = biometric_log.id) AS weight,
+  tags,
+  notes
 FROM
   biometric_log
   INNER JOIN users ON user_id = users.id
@@ -25,6 +26,44 @@ WHERE
 --------------------------------
 -- Pulse and blood pressure
 --------------------------------
+
+SELECT DISTINCT
+  date,
+  users.name,
+  tags,
+  notes,
+  (
+    SELECT
+      CAST(value AS int)
+    FROM
+      bio_log_entry
+    WHERE
+      biometric_id = 23
+      AND log_id = biometric_log.id) || '/' || (
+    SELECT
+      CAST(value AS int)
+    FROM
+      bio_log_entry
+    WHERE
+      biometric_id = 24
+      AND log_id = biometric_log.id) AS pressure,
+  (
+    SELECT
+      CAST(value AS int)
+    FROM
+      bio_log_entry
+    WHERE
+      biometric_id = 22
+      AND log_id = biometric_log.id) AS pulse
+FROM
+  biometric_log
+  INNER JOIN users ON user_id = users.id
+  INNER JOIN bio_log_entry ON biometric_id IN (22,
+    23,
+    24)
+    AND log_id = biometric_log.id
+WHERE
+  users.name = 'Mark';
 
 SELECT
   date,

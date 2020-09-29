@@ -29,12 +29,12 @@ INSERT INTO version(version, created, notes)
 
 CREATE TABLE bmr_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
-  bmr_eq text
+  name text
 );
 
 CREATE TABLE bf_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
-  bf_eq text
+  name text
 );
 
 --
@@ -53,10 +53,10 @@ CREATE TABLE users (
   act_lvl int DEFAULT 2, -- [1, 2, 3, 4, 5]
   goal_wt real,
   goal_bf real,
-  bmr_id int DEFAULT 1,
-  bf_id int DEFAULT 1,
-  FOREIGN KEY (bmr_id) REFERENCES bmr_eqs (id) ON UPDATE CASCADE,
-  FOREIGN KEY (bf_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE
+  bmr_eq_id int DEFAULT 1,
+  bf_eq_id int DEFAULT 1,
+  FOREIGN KEY (bmr_eq_id) REFERENCES bmr_eqs (id) ON UPDATE CASCADE,
+  FOREIGN KEY (bf_eq_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE
 );
 
 --
@@ -77,10 +77,10 @@ CREATE TABLE biometric_log (
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   user_id int NOT NULL,
   date int DEFAULT (strftime ('%s', 'now')),
+  tags text,
   notes text,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
-
 
 CREATE TABLE bio_log_entry (
   log_id int NOT NULL,
@@ -90,6 +90,7 @@ CREATE TABLE bio_log_entry (
   FOREIGN KEY (log_id) REFERENCES biometric_log (id) ON UPDATE CASCADE,
   FOREIGN KEY (biometric_id) REFERENCES biometrics (id) ON UPDATE CASCADE
 );
+
 --
 --------------------------------
 -- Recipes
@@ -117,7 +118,8 @@ CREATE TABLE recipe_dat (
 -- Food (and recipe) logs
 --------------------------------
 
-CREATE TABLE meal_names (
+CREATE TABLE meals (
+  -- predefined, includes standard three, snacks, brunch, and 3 optional/extra meals
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL
 );
@@ -125,26 +127,25 @@ CREATE TABLE meal_names (
 CREATE TABLE food_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
-  user_id int,
+  user_id int NOT NULL,
   date date DEFAULT CURRENT_DATE,
-  meal_id int,
+  meal_id int NOT NULL,
+  food_id int NOT NULL, -- TODO: enforce FK constraint across two DBs?
   grams real NOT NULL,
-  -- TODO: enforce FK constraint across two DBs?
-  food_id int,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
-  FOREIGN KEY (meal_id) REFERENCES meal_names (id) ON UPDATE CASCADE
+  FOREIGN KEY (meal_id) REFERENCES meals (id) ON UPDATE CASCADE
 );
 
 CREATE TABLE recipe_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
-  user_id int,
+  user_id int NOT NULL,
   date date DEFAULT CURRENT_DATE,
-  meal_id int,
+  meal_id int NOT NULL,
+  recipe_id int NOT NULL,
   grams real NOT NULL,
-  recipe_id int,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
-  FOREIGN KEY (meal_id) REFERENCES meal_names (id) ON UPDATE CASCADE,
+  FOREIGN KEY (meal_id) REFERENCES meals (id) ON UPDATE CASCADE,
   FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
 );
 

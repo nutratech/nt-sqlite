@@ -18,7 +18,7 @@
 
 .import '| tail -n +2 ./data/bmr_eqs.csv' bmr_eqs
 .import '| tail -n +2 ./data/bf_eqs.csv' bf_eqs
-.import '| tail -n +2 ./data/meal_names.csv' meal_names
+.import '| tail -n +2 ./data/meals.csv' meals
 
 .import '| tail -n +2 ./data/biometrics.csv' biometrics
 .import '| tail -n +2 ./data/users.csv' users
@@ -28,6 +28,7 @@
 .import '| tail -n +2 ./data/recipe_dat.csv' recipe_dat
 
 .import '| tail -n +2 ./data/food_log.csv' food_log
+.import '| tail -n +2 ./data/recipe_log.csv' recipe_log
 
 .import '| tail -n +2 ./data/biometric_log.csv' biometric_log
 .import '| tail -n +2 ./data/bio_log_entry.csv' bio_log_entry
