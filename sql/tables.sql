@@ -16,7 +16,7 @@
 
 PRAGMA foreign_keys = 1;
 
-CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL, created date NOT NULL, notes text
+CREATE TBLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL, created date NOT NULL, notes text
 );
 
 INSERT INTO version(version, created, notes)
