@@ -14,4 +14,4 @@ pack_cmd="sqlite3 nt.sqlite \".read init.sql\""
 # pack_cmd="sqlite3 nt.sqlite -init init.sql"
 printf "\\n\e[1;31m${pack_cmd}\e[0m\\n"
 bash -exec "$pack_cmd"
-sqlite3 nt.sqlite
+# sqlite3 nt.sqlite
