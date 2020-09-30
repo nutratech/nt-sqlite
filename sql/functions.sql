@@ -151,3 +151,20 @@ WHERE
   OR tricep.value
   OR suprailiac.value;
 
+--------------------------------
+-- Recipes overview
+--------------------------------
+
+SELECT
+  id,
+  name,
+  COUNT(recipe_id) AS n_foods,
+  SUM(grams) AS grams,
+  guid,
+  created
+FROM
+  recipes
+  LEFT JOIN recipe_dat ON recipe_id = id
+GROUP BY
+  id;
+
