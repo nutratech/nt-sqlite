@@ -15,6 +15,7 @@
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 .mode csv
+.nullvalue NULL
 
 .import '| tail -n +2 ./data/bmr_eqs.csv' bmr_eqs
 .import '| tail -n +2 ./data/bf_eqs.csv' bf_eqs

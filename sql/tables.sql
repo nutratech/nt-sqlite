@@ -29,12 +29,12 @@ INSERT INTO version(version, created, notes)
 
 CREATE TABLE bmr_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
-  name text
+  name text NOT NULL
 );
 
 CREATE TABLE bf_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
-  name text
+  name text NOT NULL
 );
 
 --
@@ -76,6 +76,9 @@ CREATE TABLE biometric_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   user_id int NOT NULL,
+  created int DEFAULT (strftime ('%s', 'now')),
+  updated int DEFAULT (strftime ('%s', 'now')),
+  synced int DEFAULT -1,
   date int DEFAULT (strftime ('%s', 'now')),
   tags text,
   notes text,
