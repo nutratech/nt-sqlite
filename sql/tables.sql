@@ -14,8 +14,6 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-PRAGMA foreign_keys = 1;
-
 CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL, created date NOT NULL, notes text
 );
 
@@ -39,10 +37,10 @@ CREATE TABLE bf_eqs (
 
 --
 --------------------------------
--- Users table
+-- Profiles table
 --------------------------------
 
-CREATE TABLE users (
+CREATE TABLE profiles (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
@@ -75,14 +73,14 @@ CREATE TABLE biometrics (
 CREATE TABLE biometric_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
-  user_id int NOT NULL,
+  profile_id int NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
   synced int DEFAULT -1,
   date int DEFAULT (strftime ('%s', 'now')),
   tags text,
   notes text,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE
 );
 
 CREATE TABLE bio_log_entry (
@@ -130,24 +128,24 @@ CREATE TABLE meals (
 CREATE TABLE food_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
-  user_id int NOT NULL,
+  profile_id int NOT NULL,
   date date DEFAULT CURRENT_DATE,
   meal_id int NOT NULL,
   food_id int NOT NULL, -- TODO: enforce FK constraint across two DBs?
   grams real NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
+  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
   FOREIGN KEY (meal_id) REFERENCES meals (id) ON UPDATE CASCADE
 );
 
 CREATE TABLE recipe_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
-  user_id int NOT NULL,
+  profile_id int NOT NULL,
   date date DEFAULT CURRENT_DATE,
   meal_id int NOT NULL,
   recipe_id int NOT NULL,
   grams real NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
+  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
   FOREIGN KEY (meal_id) REFERENCES meals (id) ON UPDATE CASCADE,
   FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
 );
@@ -158,13 +156,13 @@ CREATE TABLE recipe_log (
 --------------------------------
 
 CREATE TABLE rda (
-  user_id int NOT NULL,
+  profile_id int NOT NULL,
   -- TODO: enforce FK constraint across two DBs?
   nutr_id int NOT NULL,
   rda real NOT NULL,
   synced int DEFAULT 0,
-  PRIMARY KEY (user_id, nutr_id),
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+  PRIMARY KEY (profile_id, nutr_id),
+  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE
 );
 
 CREATE TRIGGER rda_sync
@@ -172,7 +170,7 @@ CREATE TRIGGER rda_sync
 BEGIN
   UPDATE rda SET synced = 0
 WHERE
-  NEW.user_id = user_id AND NEW.nutr_id = nutr_id;
+  NEW.profile_id = profile_id AND NEW.nutr_id = nutr_id;
 
 END;
 

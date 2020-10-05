@@ -14,15 +14,19 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+PRAGMA foreign_keys = 1;
+-- PRAGMA integrity_check = 1;
+
+
 .mode csv
-.nullvalue NULL
+-- .nullvalue NULL
 
 .import '| tail -n +2 ./data/bmr_eqs.csv' bmr_eqs
 .import '| tail -n +2 ./data/bf_eqs.csv' bf_eqs
 .import '| tail -n +2 ./data/meals.csv' meals
 
 .import '| tail -n +2 ./data/biometrics.csv' biometrics
-.import '| tail -n +2 ./data/users.csv' users
+.import '| tail -n +2 ./data/profiles.csv' profiles
 .import '| tail -n +2 ./data/rda.csv' rda
 
 .import '| tail -n +2 ./data/recipes.csv' recipes

@@ -3,18 +3,16 @@
 --------------------------------
 
 SELECT
-  users.name,
+  profiles.name,
   date,
-  ROUND(bio_log_entry.value * 2.204, 1) AS weight,
-  tags,
-  notes
+  ROUND(bio_log_entry.value * 2.204, 1) AS weight
 FROM
   biometric_log
-  INNER JOIN users ON user_id = users.id
+  INNER JOIN profiles ON profile_id = profiles.id
   INNER JOIN bio_log_entry ON biometric_id = 2
     AND log_id = biometric_log.id
 WHERE
-  users.name = 'Mark';
+  profiles.name = 'Mark';
 
 --------------------------------
 -- Pulse and blood pressure
@@ -22,14 +20,14 @@ WHERE
 
 SELECT DISTINCT
   date,
-  users.name,
+  profiles.name,
   tags,
   notes,
   CAST(sys.value AS int) || '/' || CAST(dia.value AS int) AS pressure,
   CAST(pulse.value AS int) AS pulse
 FROM
   biometric_log
-  INNER JOIN users ON user_id = users.id
+  INNER JOIN profiles ON profile_id = profiles.id
   INNER JOIN bio_log_entry pulse ON pulse.biometric_id = 22
     AND pulse.log_id = biometric_log.id
   INNER JOIN bio_log_entry sys ON sys.biometric_id = 23
@@ -37,7 +35,7 @@ FROM
   INNER JOIN bio_log_entry dia ON dia.biometric_id = 24
     AND dia.log_id = biometric_log.id
 WHERE
-  users.name = 'Mark';
+  profiles.name = 'Mark';
 
 --------------------------------
 -- Height, wrist, ankle
@@ -45,13 +43,13 @@ WHERE
 
 SELECT
   date,
-  users.name,
+  profiles.name,
   height.value AS height,
   wrist.value AS wrist,
   ankle.value AS ankle
 FROM
   biometric_log
-  INNER JOIN users ON user_id = users.id
+  INNER JOIN profiles ON profile_id = profiles.id
   LEFT JOIN bio_log_entry height ON height.biometric_id = 1
     AND height.log_id = biometric_log.id
   LEFT JOIN bio_log_entry wrist ON wrist.biometric_id = 3
@@ -69,7 +67,7 @@ WHERE
 
 SELECT
   date,
-  users.name,
+  profiles.name,
   chest.value / 2.54 AS chest,
   arm.value / 2.54 AS arm,
   thigh.value / 2.54 AS thigh,
@@ -81,7 +79,7 @@ SELECT
   forearm.value / 2.54 AS forearm
 FROM
   biometric_log
-  INNER JOIN users ON user_id = users.id
+  INNER JOIN profiles ON profile_id = profiles.id
   LEFT JOIN bio_log_entry chest ON chest.biometric_id = 5
     AND chest.log_id = biometric_log.id
   LEFT JOIN bio_log_entry arm ON arm.biometric_id = 6
@@ -117,7 +115,7 @@ WHERE
 
 SELECT
   date,
-  users.name,
+  profiles.name,
   CAST(pectoral.value AS int) AS pec,
   CAST(abdominal.value AS int) AS ab,
   CAST(quadricep.value AS int) AS quad,
@@ -127,7 +125,7 @@ SELECT
   CAST(suprailiac.value AS int) AS supra
 FROM
   biometric_log
-  INNER JOIN users ON user_id = users.id
+  INNER JOIN profiles ON profile_id = profiles.id
   LEFT JOIN bio_log_entry pectoral ON pectoral.biometric_id = 14
     AND pectoral.log_id = biometric_log.id
   LEFT JOIN bio_log_entry abdominal ON abdominal.biometric_id = 15
