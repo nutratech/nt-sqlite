@@ -177,25 +177,3 @@ CREATE TABLE rda (
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE
 );
 
-CREATE TRIGGER rda_sync
-  AFTER UPDATE OF rda ON rda
-BEGIN
-  UPDATE rda SET synced = 0
-WHERE
-  NEW.profile_id = profile_id AND NEW.nutr_id = nutr_id;
-
-END;
-
---
---------------------------------
--- Custom RDAs
---------------------------------
-
-CREATE TABLE sync_data (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  tablename text NOT NULL,
-  guid text,
-  `constraint` text, -- e.g. "(a, b)" in "UNIQUE (a, b)" or "ON CONFLICT (a, b) DO ..."
-  action text NOT NULL -- insert, delete, update
-);
-
