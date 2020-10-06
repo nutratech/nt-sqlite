@@ -166,3 +166,14 @@ FROM
 GROUP BY
   id;
 
+--------------------------------
+-- Last sync
+--------------------------------
+
+SELECT
+  max((
+    SELECT
+      last_sync FROM biometric_log), (
+    SELECT
+      last_sync FROM biometric_log));
+

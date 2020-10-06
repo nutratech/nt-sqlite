@@ -45,6 +45,8 @@ CREATE TABLE profiles (
   name text NOT NULL UNIQUE,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   created int DEFAULT (strftime ('%s', 'now')),
+  updated int DEFAULT (strftime ('%s', 'now')),
+  last_sync int DEFAULT - 1,
   eula int DEFAULT 0,
   gender text,
   dob date,
@@ -76,7 +78,7 @@ CREATE TABLE biometric_log (
   profile_id int NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
-  synced int DEFAULT -1,
+  last_sync int DEFAULT - 1,
   date int DEFAULT (strftime ('%s', 'now')),
   tags text,
   notes text,
@@ -101,6 +103,8 @@ CREATE TABLE recipes (
   id integer PRIMARY KEY AUTOINCREMENT,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   created int DEFAULT (strftime ('%s', 'now')),
+  updated int DEFAULT (strftime ('%s', 'now')),
+  last_sync int DEFAULT - 1,
   name text NOT NULL
 );
 
@@ -129,6 +133,9 @@ CREATE TABLE food_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   profile_id int NOT NULL,
+  created int DEFAULT (strftime ('%s', 'now')),
+  updated int DEFAULT (strftime ('%s', 'now')),
+  last_sync int DEFAULT - 1,
   date date DEFAULT CURRENT_DATE,
   meal_id int NOT NULL,
   food_id int NOT NULL, -- TODO: enforce FK constraint across two DBs?
@@ -141,6 +148,9 @@ CREATE TABLE recipe_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   profile_id int NOT NULL,
+  created int DEFAULT (strftime ('%s', 'now')),
+  updated int DEFAULT (strftime ('%s', 'now')),
+  last_sync int DEFAULT - 1,
   date date DEFAULT CURRENT_DATE,
   meal_id int NOT NULL,
   recipe_id int NOT NULL,
@@ -157,10 +167,12 @@ CREATE TABLE recipe_log (
 
 CREATE TABLE rda (
   profile_id int NOT NULL,
+  created int DEFAULT (strftime ('%s', 'now')),
+  updated int DEFAULT (strftime ('%s', 'now')),
+  last_sync int DEFAULT - 1,
   -- TODO: enforce FK constraint across two DBs?
   nutr_id int NOT NULL,
   rda real NOT NULL,
-  synced int DEFAULT 0,
   PRIMARY KEY (profile_id, nutr_id),
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE
 );
