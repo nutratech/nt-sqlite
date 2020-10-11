@@ -173,7 +173,15 @@ GROUP BY
 SELECT
   max((
     SELECT
+      last_sync FROM profiles), (
+    SELECT
       last_sync FROM biometric_log), (
     SELECT
-      last_sync FROM biometric_log));
+      last_sync FROM recipes), (
+    SELECT
+      last_sync FROM food_log), (
+    SELECT
+      last_sync FROM recipe_log), (
+    SELECT
+      last_sync FROM rda)) AS last_sync;
 
