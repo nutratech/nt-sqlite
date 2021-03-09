@@ -3,11 +3,13 @@ import csv
 import os
 import sqlite3
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-os.chdir(SCRIPT_DIR)
 
 
 def main():
+    # cd into this script's directory
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(SCRIPT_DIR)
+
     print("Cleanup...")
     if os.path.isfile("nt.sqlite"):
         os.remove("nt.sqlite")
