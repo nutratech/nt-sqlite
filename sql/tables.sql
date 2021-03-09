@@ -17,9 +17,6 @@
 CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL, created date NOT NULL, notes text
 );
 
-INSERT INTO version(version, created, notes)
-  VALUES ('0.0.0', '2020-09-22', 'initial release');
-
 --
 ---------------------------------
 -- Equations

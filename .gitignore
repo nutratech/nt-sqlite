@@ -3,6 +3,6 @@
 ._*
 .DS_Store
 
-# database files
-*.db
-*.sqlite
+# Database files
+*.sqlite*
+
