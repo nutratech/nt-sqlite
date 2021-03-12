@@ -4,7 +4,6 @@ import os
 import sqlite3
 
 
-
 def main():
     # cd into this script's directory
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
