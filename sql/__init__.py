@@ -4,7 +4,7 @@ import os
 import sqlite3
 
 
-def main():
+def build_ntsqlite():
     # cd into this script's directory
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
     os.chdir(SCRIPT_DIR)
@@ -43,4 +43,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    build_ntsqlite()
