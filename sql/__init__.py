@@ -3,6 +3,8 @@ import csv
 import os
 import sqlite3
 
+NT_DB_NAME = "nt.sqlite"
+
 
 def build_ntsqlite():
     # cd into this script's directory
@@ -10,11 +12,11 @@ def build_ntsqlite():
     os.chdir(SCRIPT_DIR)
 
     print("Cleanup...")
-    if os.path.isfile("nt.sqlite"):
-        os.remove("nt.sqlite")
+    if os.path.isfile(NT_DB_NAME):
+        os.remove(NT_DB_NAME)
 
-    print("\nPack nt.sqlite")
-    con = sqlite3.connect("nt.sqlite")
+    print(f"\nPack {NT_DB_NAME}")
+    con = sqlite3.connect(NT_DB_NAME)
     cur = con.cursor()
 
     print("\n-> Create tables")
