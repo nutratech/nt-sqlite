@@ -11,19 +11,19 @@ def build_ntsqlite():
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
     os.chdir(SCRIPT_DIR)
 
-    print("Cleanup...")
+    # print("Cleanup...")
     if os.path.isfile(NT_DB_NAME):
         os.remove(NT_DB_NAME)
 
-    print(f"\nPack {NT_DB_NAME}")
+    # print(f"\nPack {NT_DB_NAME}")
     con = sqlite3.connect(NT_DB_NAME)
     cur = con.cursor()
 
-    print("\n-> Create tables")
+    # print("\n-> Create tables")
     with open("tables.sql") as tables:
         cur.executescript(tables.read())
 
-    print("-> Populate data")
+    # print("-> Populate data")
     for p in os.listdir("data"):
         if not p.endswith(".csv"):
             continue
@@ -40,7 +40,7 @@ def build_ntsqlite():
     cur.close()
     con.commit()
     con.close()
-    print("\nDone!")
+    # print("\nDone!")
     return True
 
 
