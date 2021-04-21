@@ -58,6 +58,18 @@ CREATE TABLE profiles (
 
 --
 --------------------------------
+-- Food costs
+--------------------------------
+
+CREATE TABLE food_costs (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  profile_id integer NOT NULL,
+  food_id integer NOT NULL,
+  cost real NOT NULL
+);
+
+--
+--------------------------------
 -- Biometrics
 --------------------------------
 
