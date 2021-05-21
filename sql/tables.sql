@@ -62,10 +62,11 @@ CREATE TABLE profiles (
 --------------------------------
 
 CREATE TABLE food_costs (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  profile_id integer NOT NULL,
   food_id integer NOT NULL,
-  cost real NOT NULL
+  profile_id integer NOT NULL,
+  cost real NOT NULL,
+  PRIMARY KEY (food_id, profile_id),
+  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --
