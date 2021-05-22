@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
+"""Main module for building nt.sqlite"""
+
 import csv
 import os
 import sqlite3
 
 NT_DB_NAME = "nt.sqlite"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def build_ntsqlite(verbose=False):
+    """Builds and inserts stock data into nt.sqlite"""
     # cd into this script's directory
-    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
     os.chdir(SCRIPT_DIR)
 
     if verbose:
@@ -28,18 +31,18 @@ def build_ntsqlite(verbose=False):
 
     if verbose:
         print("-> Populate data")
-    for p in os.listdir("data"):
-        if not p.endswith(".csv"):
+    for file_path in os.listdir("data"):
+        if not file_path.endswith(".csv"):
             continue
-        t = os.path.splitext(os.path.basename(p))[0]
-        p = os.path.join("data", p)
+        table_name = os.path.splitext(os.path.basename(file_path))[0]
+        file_path_full = os.path.join("data", file_path)
 
         # Loop over CSV files
-        with open(p) as f:
-            reader = csv.DictReader(f)
-            q = ",".join("?" * len(reader.fieldnames))
-            reader = csv.reader(f)
-            cur.executemany(f"INSERT INTO {t} VALUES ({q});", reader)
+        with open(file_path_full) as csv_file:
+            reader = csv.DictReader(csv_file)
+            values = ",".join("?" * len(reader.fieldnames))
+            reader = csv.reader(csv_file)
+            cur.executemany(f"INSERT INTO {table_name} VALUES ({values});", reader)
 
     cur.close()
     con.commit()
