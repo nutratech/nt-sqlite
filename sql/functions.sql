@@ -158,7 +158,6 @@ SELECT
   name,
   COUNT(recipe_id) AS n_foods,
   SUM(grams) AS grams,
-  guid,
   created
 FROM
   recipes
