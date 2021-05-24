@@ -40,7 +40,6 @@ CREATE TABLE bf_eqs (
 CREATE TABLE profiles (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE,
-  guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
   last_sync int DEFAULT - 1,
@@ -84,7 +83,6 @@ CREATE TABLE biometrics (
 
 CREATE TABLE biometric_log (
   id integer PRIMARY KEY AUTOINCREMENT,
-  guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   profile_id int NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
@@ -111,7 +109,6 @@ CREATE TABLE bio_log_entry (
 
 CREATE TABLE recipes (
   id integer PRIMARY KEY AUTOINCREMENT,
-  guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
   last_sync int DEFAULT - 1,
@@ -141,7 +138,6 @@ CREATE TABLE meals (
 
 CREATE TABLE food_log (
   id integer PRIMARY KEY AUTOINCREMENT,
-  guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   profile_id int NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
@@ -156,7 +152,6 @@ CREATE TABLE food_log (
 
 CREATE TABLE recipe_log (
   id integer PRIMARY KEY AUTOINCREMENT,
-  guid text NOT NULL DEFAULT (lower(hex (randomblob (16)))) UNIQUE,
   profile_id int NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
