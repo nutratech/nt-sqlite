@@ -1,2 +1,2 @@
-id,profile_id,created,updated,last_sync,date,meal_id,recipe_id,grams
-1,1,1601977400,1601977400,-1,2020-09-26,1,1,315
+id,profile_id,created,updated,date,meal_id,recipe_id,grams
+1,1,1601977400,1601977400,2020-09-26,1,1,315

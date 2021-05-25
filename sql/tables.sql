@@ -17,6 +17,8 @@
 CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL, created date NOT NULL, notes text
 );
 
+-- TODO: enforce FK constraint across two DBs?
+
 --
 ---------------------------------
 -- Equations
@@ -42,7 +44,6 @@ CREATE TABLE profiles (
   name text NOT NULL UNIQUE,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
-  last_sync int DEFAULT - 1,
   eula int DEFAULT 0,
   gender text,
   dob date,
@@ -76,9 +77,10 @@ CREATE TABLE food_costs (
 CREATE TABLE biometrics (
   -- TODO: support custom biometrics and sync?
   id integer PRIMARY KEY AUTOINCREMENT,
+  created int DEFAULT (strftime ('%s', 'now')),
+  updated int DEFAULT (strftime ('%s', 'now')),
   name text NOT NULL UNIQUE,
-  unit text,
-  created int DEFAULT (strftime ('%s', 'now'))
+  unit text
 );
 
 CREATE TABLE biometric_log (
@@ -86,7 +88,6 @@ CREATE TABLE biometric_log (
   profile_id int NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
-  last_sync int DEFAULT - 1,
   date int DEFAULT (strftime ('%s', 'now')),
   tags text,
   notes text,
@@ -111,13 +112,12 @@ CREATE TABLE recipes (
   id integer PRIMARY KEY AUTOINCREMENT,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
-  last_sync int DEFAULT - 1,
-  name text NOT NULL
+  tagname text NOT NULL UNIQUE,
+  name text NOT NULL UNIQUE
 );
 
 CREATE TABLE recipe_dat (
   recipe_id int NOT NULL,
-  -- TODO: enforce FK constraint across two DBs?
   food_id int NOT NULL,
   grams real NOT NULL,
   notes text,
@@ -141,10 +141,9 @@ CREATE TABLE food_log (
   profile_id int NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
-  last_sync int DEFAULT - 1,
-  date date DEFAULT CURRENT_DATE,
+  date int DEFAULT (strftime ('%s', 'now')),
   meal_id int NOT NULL,
-  food_id int NOT NULL, -- TODO: enforce FK constraint across two DBs?
+  food_id int NOT NULL,
   grams real NOT NULL,
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
   FOREIGN KEY (meal_id) REFERENCES meals (id) ON UPDATE CASCADE
@@ -155,8 +154,7 @@ CREATE TABLE recipe_log (
   profile_id int NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
-  last_sync int DEFAULT - 1,
-  date date DEFAULT CURRENT_DATE,
+  date int DEFAULT (strftime ('%s', 'now')),
   meal_id int NOT NULL,
   recipe_id int NOT NULL,
   grams real NOT NULL,
@@ -165,6 +163,8 @@ CREATE TABLE recipe_log (
   FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
 );
 
+-- TODO: CREATE TABLE custom_food_log ( ... );
+
 --
 --------------------------------
 -- Custom RDAs
@@ -172,10 +172,6 @@ CREATE TABLE recipe_log (
 
 CREATE TABLE rda (
   profile_id int NOT NULL,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int DEFAULT (strftime ('%s', 'now')),
-  last_sync int DEFAULT - 1,
-  -- TODO: enforce FK constraint across two DBs?
   nutr_id int NOT NULL,
   rda real NOT NULL,
   PRIMARY KEY (profile_id, nutr_id),
