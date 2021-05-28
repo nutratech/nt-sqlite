@@ -130,7 +130,7 @@ CREATE TABLE recipe_dat (
 -- Food (and recipe) logs
 --------------------------------
 
-CREATE TABLE meals (
+CREATE TABLE meal_name (
   -- predefined, includes standard three, snacks, brunch, and 3 optional/extra meals
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL
@@ -146,7 +146,7 @@ CREATE TABLE food_log (
   food_id int NOT NULL,
   grams real NOT NULL,
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
-  FOREIGN KEY (meal_id) REFERENCES meals (id) ON UPDATE CASCADE
+  FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE
 );
 
 CREATE TABLE recipe_log (
@@ -159,7 +159,7 @@ CREATE TABLE recipe_log (
   recipe_id int NOT NULL,
   grams real NOT NULL,
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
-  FOREIGN KEY (meal_id) REFERENCES meals (id) ON UPDATE CASCADE,
+  FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE,
   FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
 );
 
