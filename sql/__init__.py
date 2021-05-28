@@ -5,6 +5,7 @@ import csv
 import os
 import sqlite3
 
+# TODO: defined-twice, from ntclient import NT_DB_NAME
 NT_DB_NAME = "nt.sqlite"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -53,4 +54,4 @@ def build_ntsqlite(verbose=False):
 
 
 if __name__ == "__main__":
-    build_ntsqlite()
+    build_ntsqlite(verbose=True)
