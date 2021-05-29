@@ -21,7 +21,7 @@ def build_ntsqlite(verbose=False):
         os.remove(NT_DB_NAME)
 
     if verbose:
-        print(f"\nPack {NT_DB_NAME}")
+        print("\nPack %s" % NT_DB_NAME)
     con = sqlite3.connect(NT_DB_NAME)
     cur = con.cursor()
 
@@ -43,7 +43,10 @@ def build_ntsqlite(verbose=False):
             reader = csv.DictReader(csv_file)
             values = ",".join("?" * len(reader.fieldnames))
             reader = csv.reader(csv_file)
-            cur.executemany(f"INSERT INTO {table_name} VALUES ({values});", reader)
+            query = "INSERT INTO {0} VALUES ({1});".format(  # nosec: B608
+                table_name, values
+            )
+            cur.executemany(query, reader)
 
     cur.close()
     con.commit()
