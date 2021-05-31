@@ -18,8 +18,7 @@ Building the database
 
 .. code-block:: bash
 
-    cd sql
-    bash build.sh
+    python build.py
 
 3. Verify the tables (again inside the SQL shell :code:`sqlite nutra.db`),
 
