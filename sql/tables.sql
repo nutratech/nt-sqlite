@@ -1,4 +1,4 @@
--- nt-sqlite, an sqlite3 database for nutratracker clients
+-- ntsqlite, an sqlite3 database for nutratracker clients
 -- Copyright (C) 2020  Shane Jaroch <nutratracker@gmail.com>
 --
 -- This program is free software: you can redistribute it and/or modify

@@ -6,6 +6,7 @@
 # Other files
 *.sqlite*
 .vscode/
+.idea/
 
 
 ####################
