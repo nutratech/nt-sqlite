@@ -169,7 +169,6 @@ GROUP BY
 --------------------------------
 -- Last sync
 --------------------------------
-
 -- SELECT
 --   max((
 --     SELECT
@@ -184,4 +183,3 @@ GROUP BY
 --       last_sync FROM recipe_log), (
 --     SELECT
 --       last_sync FROM rda)) AS last_sync;
-

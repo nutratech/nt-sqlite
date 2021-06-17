@@ -18,7 +18,6 @@ CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NUL
 );
 
 -- TODO: enforce FK constraint across two DBs?
-
 --
 ---------------------------------
 -- Equations
@@ -54,19 +53,6 @@ CREATE TABLE profiles (
   bf_eq_id int DEFAULT 1,
   FOREIGN KEY (bmr_eq_id) REFERENCES bmr_eqs (id) ON UPDATE CASCADE,
   FOREIGN KEY (bf_eq_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE
-);
-
---
---------------------------------
--- Food costs
---------------------------------
-
-CREATE TABLE food_costs (
-  food_id integer NOT NULL,
-  profile_id integer NOT NULL,
-  cost real NOT NULL,
-  PRIMARY KEY (food_id, profile_id),
-  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --
@@ -127,6 +113,28 @@ CREATE TABLE recipe_dat (
 
 --
 --------------------------------
+-- Custom foods
+--------------------------------
+
+CREATE TABLE custom_foods (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  created int DEFAULT (strftime ('%s', 'now')),
+  updated int DEFAULT (strftime ('%s', 'now')),
+  tagname text NOT NULL UNIQUE,
+  name text NOT NULL UNIQUE
+);
+
+CREATE TABLE cf_dat (
+  cf_id int NOT NULL,
+  nutr_id int NOT NULL, -- no FK constraing on usda :[
+  nutr_val real NOT NULL,
+  notes text,
+  PRIMARY KEY (cf_id, nutr_id),
+  FOREIGN KEY (cf_id) REFERENCES custom_foods (id) ON UPDATE CASCADE
+);
+
+--
+--------------------------------
 -- Food (and recipe) logs
 --------------------------------
 
@@ -164,7 +172,6 @@ CREATE TABLE recipe_log (
 );
 
 -- TODO: CREATE TABLE custom_food_log ( ... );
-
 --
 --------------------------------
 -- Custom RDAs
@@ -176,5 +183,18 @@ CREATE TABLE rda (
   rda real NOT NULL,
   PRIMARY KEY (profile_id, nutr_id),
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE
+);
+
+--
+--------------------------------
+-- Food costs
+--------------------------------
+
+CREATE TABLE food_costs (
+  food_id integer NOT NULL,
+  profile_id integer NOT NULL,
+  cost real NOT NULL,
+  PRIMARY KEY (food_id, profile_id),
+  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
