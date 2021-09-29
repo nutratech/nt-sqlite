@@ -152,7 +152,8 @@ CREATE TABLE food_log (
   date int DEFAULT (strftime ('%s', 'now')),
   meal_id int NOT NULL,
   food_id int NOT NULL,
-  grams real NOT NULL,
+  msre_id int NOT NULL,
+  amt real NOT NULL,
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
   FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE
 );
