@@ -1,4 +1,4 @@
-id,profile_id,created,updated,date,meal_id,food_id,msre_id,amt
+id,profile_id,created,updated,date,meal_id,food_id,msre_id,msre_amount
 1,1,1601977400,1601977400,2020-09-20,1,13047,-1,100
 2,1,1601977400,1601977400,2020-09-20,1,1270,-1,28
 3,1,1601977400,1601977400,2020-09-20,1,9038,-1,55
