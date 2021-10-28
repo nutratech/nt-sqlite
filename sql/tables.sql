@@ -41,6 +41,7 @@ CREATE TABLE bf_eqs (
 CREATE TABLE profiles (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE,
+  pwd_hash text NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
   eula int DEFAULT 0,
@@ -72,20 +73,14 @@ CREATE TABLE biometrics (
 CREATE TABLE biometric_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   profile_id int NOT NULL,
+  biometric_id int NOT NULL,
+  [value] real NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   updated int DEFAULT (strftime ('%s', 'now')),
   date int DEFAULT (strftime ('%s', 'now')),
   tags text,
   notes text,
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE
-);
-
-CREATE TABLE bio_log_entry (
-  log_id int NOT NULL,
-  biometric_id int NOT NULL,
-  value real NOT NULL,
-  PRIMARY KEY (log_id, biometric_id),
-  FOREIGN KEY (log_id) REFERENCES biometric_log (id) ON UPDATE CASCADE,
   FOREIGN KEY (biometric_id) REFERENCES biometrics (id) ON UPDATE CASCADE
 );
 
@@ -105,32 +100,11 @@ CREATE TABLE recipes (
 CREATE TABLE recipe_dat (
   recipe_id int NOT NULL,
   food_id int NOT NULL,
-  grams real NOT NULL,
+  msre_id int NOT NULL,
+  amount real NOT NULL,
   notes text,
   PRIMARY KEY (recipe_id, food_id),
   FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
-);
-
---
---------------------------------
--- Custom foods
---------------------------------
-
-CREATE TABLE custom_foods (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int DEFAULT (strftime ('%s', 'now')),
-  tagname text NOT NULL UNIQUE,
-  name text NOT NULL UNIQUE
-);
-
-CREATE TABLE cf_dat (
-  cf_id int NOT NULL,
-  nutr_id int NOT NULL, -- no FK constraing on usda :[
-  nutr_val real NOT NULL,
-  notes text,
-  PRIMARY KEY (cf_id, nutr_id),
-  FOREIGN KEY (cf_id) REFERENCES custom_foods (id) ON UPDATE CASCADE
 );
 
 --
@@ -153,7 +127,7 @@ CREATE TABLE food_log (
   meal_id int NOT NULL,
   food_id int NOT NULL,
   msre_id int NOT NULL,
-  amt real NOT NULL,
+  msre_amount real NOT NULL,
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
   FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE
 );
@@ -172,30 +146,14 @@ CREATE TABLE recipe_log (
   FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
 );
 
--- TODO: CREATE TABLE custom_food_log ( ... );
 --
 --------------------------------
--- Custom RDAs
+-- Nutrients visible in reports
 --------------------------------
 
-CREATE TABLE rda (
+CREATE TABLE report_nutrients (
   profile_id int NOT NULL,
   nutr_id int NOT NULL,
-  rda real NOT NULL,
   PRIMARY KEY (profile_id, nutr_id),
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE
 );
-
---
---------------------------------
--- Food costs
---------------------------------
-
-CREATE TABLE food_costs (
-  food_id integer NOT NULL,
-  profile_id integer NOT NULL,
-  cost real NOT NULL,
-  PRIMARY KEY (food_id, profile_id),
-  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
