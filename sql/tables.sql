@@ -14,24 +14,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL, created date NOT NULL, notes text
-);
-
--- TODO: enforce FK constraint across two DBs?
---
----------------------------------
--- Equations
----------------------------------
-
-CREATE TABLE bmr_eqs (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  name text NOT NULL
-);
-
-CREATE TABLE bf_eqs (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  name text NOT NULL
-);
+CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL, created date NOT NULL, notes text);
 
 --
 --------------------------------
