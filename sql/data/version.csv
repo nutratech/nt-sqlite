@@ -6,3 +6,4 @@ id,version,created,notes
 5,0.0.4,2021-06-17,"add custom foods tables (custom_foods, cf_dat)"
 6,0.0.5,2021-10-28,"update tables to support app (subset of original features)"
 7,1.0.0,2021-11-05,"remove test data"
+8,1.0.1,2021-11-05,"use field headers from test data"

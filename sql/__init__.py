@@ -41,10 +41,13 @@ def build_ntsqlite(verbose=False):
         with open(file_path_full) as csv_file:
             reader = csv.DictReader(csv_file)
             values = ",".join("?" * len(reader.fieldnames))
+            fields = ",".join(reader.fieldnames)
             reader = csv.reader(csv_file)
-            query = "INSERT INTO {0} VALUES ({1});".format(  # nosec: B608
-                table_name, values
+            query = "INSERT INTO {0} ({1}) VALUES ({2});".format(  # nosec: B608
+                table_name, fields, values
             )
+            print(query)
+            print("\n")
             cur.executemany(query, reader)
 
     cur.close()
