@@ -35,6 +35,7 @@ CREATE TABLE profiles (
   goal_bf real,
   bmr_eq_id int DEFAULT 1,
   bf_eq_id int DEFAULT 1,
+  img_data text,
   FOREIGN KEY (bmr_eq_id) REFERENCES bmr_eqs (id) ON UPDATE CASCADE,
   FOREIGN KEY (bf_eq_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE
 );
