@@ -33,11 +33,7 @@ CREATE TABLE profiles (
   act_lvl int DEFAULT 2, -- [1, 2, 3, 4, 5]
   goal_wt real,
   goal_bf real,
-  bmr_eq_id int DEFAULT 1,
-  bf_eq_id int DEFAULT 1,
-  img_data text,
-  FOREIGN KEY (bmr_eq_id) REFERENCES bmr_eqs (id) ON UPDATE CASCADE,
-  FOREIGN KEY (bf_eq_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE
+  img_data text
 );
 
 --
