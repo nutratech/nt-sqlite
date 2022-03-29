@@ -126,7 +126,7 @@ CREATE TABLE custom_foods (
 
 CREATE TABLE cf_dat (
   cf_id int NOT NULL,
-  nutr_id int NOT NULL, -- no FK constraing on usda :[
+  nutr_id int NOT NULL, -- no FK constraining on usda :[
   nutr_val real NOT NULL,
   notes text,
   PRIMARY KEY (cf_id, nutr_id),

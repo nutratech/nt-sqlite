@@ -26,7 +26,7 @@ def build_ntsqlite(verbose=False):
 
     if verbose:
         print("\n-> Create tables")
-    with open("tables.sql") as tables:
+    with open("tables.sql", encoding="utf-8") as tables:
         cur.executescript(tables.read())
 
     if verbose:
@@ -38,7 +38,7 @@ def build_ntsqlite(verbose=False):
         file_path_full = os.path.join("data", file_path)
 
         # Loop over CSV files
-        with open(file_path_full) as csv_file:
+        with open(file_path_full, encoding="utf-8") as csv_file:
             reader = csv.DictReader(csv_file)
             values = ",".join("?" * len(reader.fieldnames))
             reader = csv.reader(csv_file)
