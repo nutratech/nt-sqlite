@@ -1,5 +1,5 @@
 dist: xenial
-sudo: true
+os: ['linux']
 language: python
 python:
 - '3.6'
