@@ -41,8 +41,6 @@ CREATE TABLE bf_eqs (
 CREATE TABLE profiles (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int DEFAULT (strftime ('%s', 'now')),
   eula int DEFAULT 0,
   gender text,
   dob date,
@@ -51,6 +49,8 @@ CREATE TABLE profiles (
   goal_bf real,
   bmr_eq_id int DEFAULT 1,
   bf_eq_id int DEFAULT 1,
+  created int DEFAULT (strftime ('%s', 'now')),
+  -- last_active timestamp?
   FOREIGN KEY (bmr_eq_id) REFERENCES bmr_eqs (id) ON UPDATE CASCADE,
   FOREIGN KEY (bf_eq_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE
 );
@@ -63,20 +63,18 @@ CREATE TABLE profiles (
 CREATE TABLE biometrics (
   -- TODO: support custom biometrics and sync?
   id integer PRIMARY KEY AUTOINCREMENT,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int DEFAULT (strftime ('%s', 'now')),
   name text NOT NULL UNIQUE,
-  unit text
+  unit text,
+  created int DEFAULT (strftime ('%s', 'now'))
 );
 
 CREATE TABLE biometric_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   profile_id int NOT NULL,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int DEFAULT (strftime ('%s', 'now')),
   date int DEFAULT (strftime ('%s', 'now')),
   tags text,
   notes text,
+  created int DEFAULT (strftime ('%s', 'now')),
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE
 );
 
@@ -96,10 +94,9 @@ CREATE TABLE bio_log_entry (
 
 CREATE TABLE recipes (
   id integer PRIMARY KEY AUTOINCREMENT,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int DEFAULT (strftime ('%s', 'now')),
   tagname text NOT NULL UNIQUE,
-  name text NOT NULL UNIQUE
+  name text NOT NULL UNIQUE,
+  created int DEFAULT (strftime ('%s', 'now'))
 );
 
 CREATE TABLE recipe_dat (
@@ -107,6 +104,7 @@ CREATE TABLE recipe_dat (
   food_id int NOT NULL,
   grams real NOT NULL,
   notes text,
+  created int DEFAULT (strftime ('%s', 'now')),
   PRIMARY KEY (recipe_id, food_id),
   FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
 );
@@ -118,10 +116,9 @@ CREATE TABLE recipe_dat (
 
 CREATE TABLE custom_foods (
   id integer PRIMARY KEY AUTOINCREMENT,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int DEFAULT (strftime ('%s', 'now')),
   tagname text NOT NULL UNIQUE,
-  name text NOT NULL UNIQUE
+  name text NOT NULL UNIQUE,
+  created int DEFAULT (strftime ('%s', 'now'))
 );
 
 CREATE TABLE cf_dat (
@@ -129,6 +126,7 @@ CREATE TABLE cf_dat (
   nutr_id int NOT NULL, -- no FK constraining on usda :[
   nutr_val real NOT NULL,
   notes text,
+  created int DEFAULT (strftime ('%s', 'now')),
   PRIMARY KEY (cf_id, nutr_id),
   FOREIGN KEY (cf_id) REFERENCES custom_foods (id) ON UPDATE CASCADE
 );
@@ -147,13 +145,12 @@ CREATE TABLE meal_name (
 CREATE TABLE food_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   profile_id int NOT NULL,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int DEFAULT (strftime ('%s', 'now')),
   date int DEFAULT (strftime ('%s', 'now')),
   meal_id int NOT NULL,
   food_id int NOT NULL,
   msre_id int NOT NULL,
   amt real NOT NULL,
+  created int DEFAULT (strftime ('%s', 'now')),
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
   FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE
 );
@@ -161,12 +158,11 @@ CREATE TABLE food_log (
 CREATE TABLE recipe_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   profile_id int NOT NULL,
-  created int DEFAULT (strftime ('%s', 'now')),
-  updated int DEFAULT (strftime ('%s', 'now')),
   date int DEFAULT (strftime ('%s', 'now')),
   meal_id int NOT NULL,
   recipe_id int NOT NULL,
   grams real NOT NULL,
+  created int DEFAULT (strftime ('%s', 'now')),
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
   FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE,
   FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
@@ -191,6 +187,9 @@ CREATE TABLE rda (
 -- Food costs
 --------------------------------
 
+-- Case for no FK?  e.g. points to food OR custom_food?
+-- Leave edge cases potentially dangling (should never happen)
+-- Does this simplify imports with a potential `guid` column?
 CREATE TABLE food_costs (
   food_id integer NOT NULL,
   profile_id integer NOT NULL,

@@ -15,7 +15,7 @@ Pypi page:  https://pypi.org/project/nutra
 Building the database
 #########################
 
-1. If you are committing database changes, add a line to :code:`data/version.csv` (e.g. :code:`id=4` is the latest in this case),
+1. If you are committing database changes, add a line to ``data/version.csv`` (e.g. ``id=4`` is the latest in this case),
 
 +-----+----------+-------------+------------------+
 | id  | version  | created     | notes            |
@@ -33,15 +33,13 @@ Building the database
 
 .. code-block:: bash
 
-    python sql/__init__.py
+    make
 
-3. Verify the tables (again inside the SQL shell :code:`sqlite3 nutra.sqlite`),
+3. Verify the tables were populated and exist,
 
-.. code-block:: sql
+.. code-block:: bash
 
-    .tables
-    SELECT * FROM versions;
-    .exit
+    make test
 
 4. If everything looks good, commit and update submodules in the ``cli`` (python) and ``nt-android`` (java) repos.
 
@@ -49,8 +47,10 @@ Building the database
 Tables (Relational Design)
 ##########################
 
-See :code:`sql/tables.sql` for details.
+Note: functions are kept in ``sql/functions.sql``.
 
-This is frequently updated, see :code:`docs/` for more info.
+See ``sql/tables.sql`` for details.
+
+This is frequently updated, see ``docs/`` for more info.
 
 .. image:: docs/nt.svg
