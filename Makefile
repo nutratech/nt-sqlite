@@ -14,3 +14,7 @@ test:
 		'SELECT * FROM bmr_eqs;' \
 		'SELECT * FROM meal_name;' \
 		'SELECT * FROM version;' \
+
+install:
+	mkdir -p ~/.nutra
+	mv sql/nt.sqlite ~/.nutra
