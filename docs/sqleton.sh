@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
-# cd to script's directory
 cd "$(dirname "$0")"
-cd ../sql
+cd ..
 
-sqleton -o ../docs/nt.svg nt.sqlite
+sqleton -o docs/nt.svg sql/nt.sqlite

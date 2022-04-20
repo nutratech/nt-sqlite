@@ -14,7 +14,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL, created date NOT NULL, notes text
+CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL UNIQUE, created date NOT NULL, notes text
 );
 
 -- TODO: enforce FK constraint across two DBs?
@@ -186,13 +186,13 @@ CREATE TABLE rda (
 --------------------------------
 -- Food costs
 --------------------------------
-
 -- Case for no FK?  e.g. points to food OR custom_food?
 -- Leave edge cases potentially dangling (should never happen)
 -- Does this simplify imports with a potential `guid` column?
+
 CREATE TABLE food_costs (
-  food_id integer NOT NULL,
-  profile_id integer NOT NULL,
+  food_id int NOT NULL,
+  profile_id int NOT NULL,
   cost real NOT NULL,
   PRIMARY KEY (food_id, profile_id),
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE

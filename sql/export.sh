@@ -1,15 +1,7 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 cd "$(dirname "$0")"
 
-table_cmd="sqlite3 nt.sqlite '.tables'"
-tables=$(bash -exec "$table_cmd")
-echo "$tables"
-
-for t in $tables
-do
-    export_cmd="SELECT * FROM $t"
-    echo "\"$export_cmd\""
-    export_cmd="sqlite3 -csv nt.sqlite "\"$export_cmd\"""
-    bash -exec "$export_cmd" > "data/$t.csv"
+for t in $(sqlite3 nt.sqlite '.tables'); do
+    sqlite3 -csv nt.sqlite "SELECT * FROM $t" > "data/$t.csv"
 done
