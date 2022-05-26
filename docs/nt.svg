@@ -50,31 +50,29 @@
 <!-- profiles -->
 <g id="node4" class="node">
 <title>profiles</title>
-<path fill="none" stroke="black" d="M413.74,-659.67C413.74,-659.67 533.74,-659.67 533.74,-659.67 539.74,-659.67 545.74,-665.67 545.74,-671.67 545.74,-671.67 545.74,-870.67 545.74,-870.67 545.74,-876.67 539.74,-882.67 533.74,-882.67 533.74,-882.67 413.74,-882.67 413.74,-882.67 407.74,-882.67 401.74,-876.67 401.74,-870.67 401.74,-870.67 401.74,-671.67 401.74,-671.67 401.74,-665.67 407.74,-659.67 413.74,-659.67"/>
-<text text-anchor="start" x="445.74" y="-862.27" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="13.00">profiles</text>
-<polyline fill="none" stroke="black" points="401.74,-852.67 545.74,-852.67 "/>
-<text text-anchor="start" x="408.74" y="-838.57" font-family="Helvetica,sans-Serif" font-size="12.00">id* </text>
-<text text-anchor="start" x="429.74" y="-838.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">integer</text>
-<text text-anchor="start" x="408.74" y="-821.57" font-family="Helvetica,sans-Serif" font-size="12.00">name </text>
-<text text-anchor="start" x="447.74" y="-821.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
-<text text-anchor="start" x="408.74" y="-804.57" font-family="Helvetica,sans-Serif" font-size="12.00">eula </text>
-<text text-anchor="start" x="438.74" y="-804.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
-<text text-anchor="start" x="408.74" y="-787.57" font-family="Helvetica,sans-Serif" font-size="12.00">gender </text>
-<text text-anchor="start" x="455.74" y="-787.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
-<text text-anchor="start" x="408.74" y="-770.57" font-family="Helvetica,sans-Serif" font-size="12.00">dob </text>
-<text text-anchor="start" x="435.74" y="-770.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">date</text>
-<text text-anchor="start" x="408.74" y="-753.57" font-family="Helvetica,sans-Serif" font-size="12.00">act_lvl </text>
-<text text-anchor="start" x="450.74" y="-753.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
-<text text-anchor="start" x="408.74" y="-736.57" font-family="Helvetica,sans-Serif" font-size="12.00">goal_wt </text>
-<text text-anchor="start" x="458.74" y="-736.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
-<text text-anchor="start" x="408.74" y="-719.57" font-family="Helvetica,sans-Serif" font-size="12.00">goal_bf </text>
-<text text-anchor="start" x="456.74" y="-719.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
-<text text-anchor="start" x="408.74" y="-702.57" font-family="Helvetica,sans-Serif" font-size="12.00">bmr_eq_id </text>
-<text text-anchor="start" x="475.74" y="-702.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
-<text text-anchor="start" x="408.74" y="-685.57" font-family="Helvetica,sans-Serif" font-size="12.00">bf_eq_id </text>
-<text text-anchor="start" x="462.74" y="-685.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
-<text text-anchor="start" x="408.74" y="-668.57" font-family="Helvetica,sans-Serif" font-size="12.00">created </text>
-<text text-anchor="start" x="458.74" y="-668.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<path fill="none" stroke="black" d="M413.74,-668.17C413.74,-668.17 533.74,-668.17 533.74,-668.17 539.74,-668.17 545.74,-674.17 545.74,-680.17 545.74,-680.17 545.74,-862.17 545.74,-862.17 545.74,-868.17 539.74,-874.17 533.74,-874.17 533.74,-874.17 413.74,-874.17 413.74,-874.17 407.74,-874.17 401.74,-868.17 401.74,-862.17 401.74,-862.17 401.74,-680.17 401.74,-680.17 401.74,-674.17 407.74,-668.17 413.74,-668.17"/>
+<text text-anchor="start" x="445.74" y="-853.77" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="13.00">profiles</text>
+<polyline fill="none" stroke="black" points="401.74,-844.17 545.74,-844.17 "/>
+<text text-anchor="start" x="408.74" y="-830.57" font-family="Helvetica,sans-Serif" font-size="12.00">id* </text>
+<text text-anchor="start" x="429.74" y="-830.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">integer</text>
+<text text-anchor="start" x="408.74" y="-813.57" font-family="Helvetica,sans-Serif" font-size="12.00">name </text>
+<text text-anchor="start" x="447.74" y="-813.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
+<text text-anchor="start" x="408.74" y="-796.57" font-family="Helvetica,sans-Serif" font-size="12.00">gender </text>
+<text text-anchor="start" x="455.74" y="-796.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">text</text>
+<text text-anchor="start" x="408.74" y="-779.57" font-family="Helvetica,sans-Serif" font-size="12.00">dob </text>
+<text text-anchor="start" x="435.74" y="-779.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">date</text>
+<text text-anchor="start" x="408.74" y="-762.57" font-family="Helvetica,sans-Serif" font-size="12.00">act_lvl </text>
+<text text-anchor="start" x="450.74" y="-762.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="408.74" y="-745.57" font-family="Helvetica,sans-Serif" font-size="12.00">goal_wt </text>
+<text text-anchor="start" x="458.74" y="-745.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
+<text text-anchor="start" x="408.74" y="-728.57" font-family="Helvetica,sans-Serif" font-size="12.00">goal_bf </text>
+<text text-anchor="start" x="456.74" y="-728.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
+<text text-anchor="start" x="408.74" y="-711.57" font-family="Helvetica,sans-Serif" font-size="12.00">bmr_eq_id </text>
+<text text-anchor="start" x="475.74" y="-711.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="408.74" y="-694.57" font-family="Helvetica,sans-Serif" font-size="12.00">bf_eq_id </text>
+<text text-anchor="start" x="462.74" y="-694.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
+<text text-anchor="start" x="408.74" y="-677.57" font-family="Helvetica,sans-Serif" font-size="12.00">created </text>
+<text text-anchor="start" x="458.74" y="-677.57" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
 </g>
 <!-- profiles&#45;&gt;bmr_eqs -->
 <g id="edge2" class="edge">
@@ -125,8 +123,8 @@
 <!-- biometric_log&#45;&gt;profiles -->
 <g id="edge3" class="edge">
 <title>biometric_log&#45;&gt;profiles</title>
-<path fill="none" stroke="black" stroke-width="0.9" d="M543.09,-1047.44C531.86,-1002.69 516.93,-943.22 503.8,-890.92"/>
-<polygon fill="black" stroke="black" stroke-width="0.9" points="506.45,-890 501.79,-882.92 501.02,-891.36 506.45,-890"/>
+<path fill="none" stroke="black" stroke-width="0.9" d="M543.09,-1047.44C531.22,-1000.16 515.23,-936.45 501.59,-882.11"/>
+<polygon fill="black" stroke="black" stroke-width="0.9" points="504.26,-881.25 499.59,-874.17 498.83,-882.61 504.26,-881.25"/>
 </g>
 <!-- bio_log_entry -->
 <g id="node7" class="node">
@@ -266,8 +264,8 @@
 <!-- food_log&#45;&gt;profiles -->
 <g id="edge9" class="edge">
 <title>food_log&#45;&gt;profiles</title>
-<path fill="none" stroke="black" stroke-width="0.9" d="M443.24,-552.15C447.53,-583 452.45,-618.34 457.07,-651.51"/>
-<polygon fill="black" stroke="black" stroke-width="0.9" points="454.3,-651.9 458.18,-659.44 459.85,-651.13 454.3,-651.9"/>
+<path fill="none" stroke="black" stroke-width="0.9" d="M443.24,-552.15C447.9,-585.67 453.31,-624.5 458.26,-660.07"/>
+<polygon fill="black" stroke="black" stroke-width="0.9" points="455.5,-660.54 459.38,-668.08 461.05,-659.77 455.5,-660.54"/>
 </g>
 <!-- food_log&#45;&gt;meal_name -->
 <g id="edge8" class="edge">
@@ -340,9 +338,9 @@
 <text text-anchor="start" x="673.07" y="-614.54" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="13.00">food_costs</text>
 <polyline fill="none" stroke="black" points="640.07,-604.94 784.07,-604.94 "/>
 <text text-anchor="start" x="647.07" y="-590.84" font-family="Helvetica,sans-Serif" font-size="12.00">food_id* </text>
-<text text-anchor="start" x="701.07" y="-590.84" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">integer</text>
+<text text-anchor="start" x="701.07" y="-590.84" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
 <text text-anchor="start" x="647.07" y="-573.84" font-family="Helvetica,sans-Serif" font-size="12.00">profile_id* </text>
-<text text-anchor="start" x="711.07" y="-573.84" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">integer</text>
+<text text-anchor="start" x="711.07" y="-573.84" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">int</text>
 <text text-anchor="start" x="647.07" y="-556.84" font-family="Helvetica,sans-Serif" font-size="12.00">cost </text>
 <text text-anchor="start" x="676.07" y="-556.84" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">real</text>
 </g>

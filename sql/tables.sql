@@ -14,7 +14,11 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NULL UNIQUE, created date NOT NULL, notes text
+CREATE TABLE `version` (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  `version` text NOT NULL UNIQUE,
+  created date NOT NULL,
+  notes text
 );
 
 -- TODO: enforce FK constraint across two DBs?
@@ -25,12 +29,12 @@ CREATE TABLE version( id integer PRIMARY KEY AUTOINCREMENT, version text NOT NUL
 
 CREATE TABLE bmr_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
-  name text NOT NULL
+  name text NOT NULL UNIQUE
 );
 
 CREATE TABLE bf_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
-  name text NOT NULL
+  name text NOT NULL UNIQUE
 );
 
 --
@@ -41,7 +45,6 @@ CREATE TABLE bf_eqs (
 CREATE TABLE profiles (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE,
-  eula int DEFAULT 0,
   gender text,
   dob date,
   act_lvl int DEFAULT 2, -- [1, 2, 3, 4, 5]
@@ -50,7 +53,6 @@ CREATE TABLE profiles (
   bmr_eq_id int DEFAULT 1,
   bf_eq_id int DEFAULT 1,
   created int DEFAULT (strftime ('%s', 'now')),
-  -- last_active timestamp?
   FOREIGN KEY (bmr_eq_id) REFERENCES bmr_eqs (id) ON UPDATE CASCADE,
   FOREIGN KEY (bf_eq_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE
 );
