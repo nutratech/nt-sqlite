@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := build
 
 clean:
-	find sql/ -name __pycache__ | xargs rm -rf
+	find sql/ -name __pycache__ -o -name .pytest_cache | xargs rm -rf
 	rm -f  sql/nt.sqlite
 
 build:

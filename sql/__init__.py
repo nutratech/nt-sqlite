@@ -45,8 +45,8 @@ def build_ntsqlite(verbose=False):
             query = "INSERT INTO {0} VALUES ({1});".format(  # nosec: B608
                 table_name, values
             )
-            print(query)
-            exit()
+            # print(query)
+            # exit()
             cur.executemany(query, reader)
 
     cur.close()
