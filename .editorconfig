@@ -17,10 +17,12 @@ max_line_length = 88
 
 [*.sql]
 indent_size = 2
+max_line_length = 80
 
 
 [*.{yaml,yml}]
 indent_size = 2
+max_line_length = 80
 
 
 [Makefile]
@@ -37,6 +39,6 @@ trim_trailing_whitespace = false
 max_line_length = 79
 
 
-[{COMMIT_EDITMSG,MERGE_MSG,SQUASH_MSG}]
+[{COMMIT_EDITMSG,MERGE_MSG,SQUASH_MSG,git-rebase-todo}]
 max_line_length = 72
 
