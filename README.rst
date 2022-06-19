@@ -34,7 +34,7 @@ Building the database
 
 .. code-block:: bash
 
-    make
+    make build
 
 3. Verify the tables were populated and exist,
 
