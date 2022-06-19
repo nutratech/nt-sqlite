@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Main module for building nt.sqlite"""
+"""Main module for building nt.sqlite3"""
 
 import csv
 import os
 import sqlite3
 
-NT_DB_NAME = "nt.sqlite"
+NT_DB_NAME = "nt.sqlite3"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def build_ntsqlite(verbose=False) -> bool:
-    """Builds and inserts stock data into nt.sqlite"""
+    """Builds and inserts stock data into nt.sqlite3"""
     # cd into this script's directory
     os.chdir(SCRIPT_DIR)
 
