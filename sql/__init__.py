@@ -9,7 +9,7 @@ NT_DB_NAME = "nt.sqlite"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def build_ntsqlite(verbose=False):
+def build_ntsqlite(verbose=False) -> bool:
     """Builds and inserts stock data into nt.sqlite"""
     # cd into this script's directory
     os.chdir(SCRIPT_DIR)
@@ -39,8 +39,8 @@ def build_ntsqlite(verbose=False):
 
         # Loop over CSV files
         with open(file_path_full, encoding="utf-8") as csv_file:
-            reader = csv.DictReader(csv_file)
-            values = ",".join("?" * len(reader.fieldnames))
+            dict_reader = csv.DictReader(csv_file)
+            values = ",".join("?" * len(dict_reader.fieldnames))
             reader = csv.reader(csv_file)
             query = "INSERT INTO {0} VALUES ({1});".format(  # nosec: B608
                 table_name, values
