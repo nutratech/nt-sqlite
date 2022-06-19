@@ -20,6 +20,7 @@ def build_ntsqlite(verbose=False) -> bool:
         os.remove(NT_DB_NAME)
 
     if verbose:
+        # pylint: disable=consider-using-f-string
         print("\nPack %s" % NT_DB_NAME)
     con = sqlite3.connect(NT_DB_NAME)
     cur = con.cursor()
@@ -36,12 +37,14 @@ def build_ntsqlite(verbose=False) -> bool:
             continue
         table_name = os.path.splitext(os.path.basename(file_path))[0]
         file_path_full = os.path.join("data", file_path)
+        # print(table_name)
 
         # Loop over CSV files
         with open(file_path_full, encoding="utf-8") as csv_file:
             dict_reader = csv.DictReader(csv_file)
             values = ",".join("?" * len(dict_reader.fieldnames))
             reader = csv.reader(csv_file)
+            # pylint: disable=consider-using-f-string
             query = "INSERT INTO {0} VALUES ({1});".format(  # nosec: B608
                 table_name, values
             )
