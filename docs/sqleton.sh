@@ -3,4 +3,4 @@
 cd "$(dirname "$0")"
 cd ..
 
-sqleton -o docs/nt.svg sql/nt.sqlite
+sqleton -o docs/nt.svg sql/nt.sqlite3

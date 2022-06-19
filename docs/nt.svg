@@ -9,7 +9,7 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(28.8 1525.8)">
 <title>undefined</title>
 <polygon fill="white" stroke="transparent" points="-28.8,49.8 -28.8,-1525.8 1058.8,-1525.8 1058.8,49.8 -28.8,49.8"/>
-<text text-anchor="start" x="474.5" y="12.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">sql/nt.sqlite</text>
+<text text-anchor="start" x="474.5" y="12.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="12.00">sql/nt.sqlite3</text>
 <!-- version -->
 <g id="node1" class="node">
 <title>version</title>
