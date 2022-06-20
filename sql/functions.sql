@@ -1,6 +1,7 @@
 --------------------------------
 -- Weight
 --------------------------------
+
 SELECT
   profiles.name,
   date,
@@ -16,6 +17,7 @@ WHERE
 --------------------------------
 -- Pulse and blood pressure
 --------------------------------
+
 SELECT DISTINCT
   date,
   profiles.name,
@@ -38,6 +40,7 @@ WHERE
 --------------------------------
 -- Height, wrist, ankle
 --------------------------------
+
 SELECT
   date,
   profiles.name,
@@ -61,6 +64,7 @@ WHERE
 --------------------------------
 -- Measurements (cm)
 --------------------------------
+
 SELECT
   date,
   profiles.name,
@@ -108,6 +112,7 @@ WHERE
 --------------------------------
 -- Skinfolds (mm)
 --------------------------------
+
 SELECT
   date,
   profiles.name,
@@ -147,6 +152,7 @@ WHERE
 --------------------------------
 -- Recipes overview
 --------------------------------
+
 SELECT
   id,
   tagname,

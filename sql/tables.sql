@@ -13,6 +13,7 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 CREATE TABLE `version` (
   id integer PRIMARY KEY AUTOINCREMENT,
   `version` text NOT NULL UNIQUE,
@@ -25,6 +26,7 @@ CREATE TABLE `version` (
 ---------------------------------
 -- Equations
 ---------------------------------
+
 CREATE TABLE bmr_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE
@@ -39,6 +41,7 @@ CREATE TABLE bf_eqs (
 --------------------------------
 -- Profiles table
 --------------------------------
+
 CREATE TABLE profiles (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE,
@@ -58,6 +61,7 @@ CREATE TABLE profiles (
 --------------------------------
 -- Biometrics
 --------------------------------
+
 CREATE TABLE biometrics (
   -- TODO: support custom biometrics and sync?
   id integer PRIMARY KEY AUTOINCREMENT,
@@ -89,6 +93,7 @@ CREATE TABLE bio_log_entry (
 --------------------------------
 -- Recipes
 --------------------------------
+
 CREATE TABLE recipes (
   id integer PRIMARY KEY AUTOINCREMENT,
   tagname text NOT NULL UNIQUE,
@@ -110,6 +115,7 @@ CREATE TABLE recipe_dat (
 --------------------------------
 -- Custom foods
 --------------------------------
+
 CREATE TABLE custom_foods (
   id integer PRIMARY KEY AUTOINCREMENT,
   tagname text NOT NULL UNIQUE,
@@ -131,6 +137,7 @@ CREATE TABLE cf_dat (
 --------------------------------
 -- Food (and recipe) logs
 --------------------------------
+
 CREATE TABLE meal_name (
   -- predefined, includes standard three, snacks, brunch, and 3 optional/extra meals
   id integer PRIMARY KEY AUTOINCREMENT,
@@ -168,6 +175,7 @@ CREATE TABLE recipe_log (
 --------------------------------
 -- Custom RDAs
 --------------------------------
+
 CREATE TABLE rda (
   profile_id int NOT NULL,
   nutr_id int NOT NULL,
@@ -183,6 +191,7 @@ CREATE TABLE rda (
 -- Case for no FK?  e.g. points to food OR custom_food?
 -- Leave edge cases potentially dangling (should never happen)
 -- Does this simplify imports with a potential `guid` column?
+
 CREATE TABLE food_costs (
   food_id int NOT NULL,
   profile_id int NOT NULL,
@@ -190,3 +199,4 @@ CREATE TABLE food_costs (
   PRIMARY KEY (food_id, profile_id),
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
