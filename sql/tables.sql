@@ -227,6 +227,7 @@ CREATE TABLE food_cost
 CREATE TABLE bug
 (
   id           integer PRIMARY KEY AUTOINCREMENT,
+  profile_id   int,
   created      int     DEFAULT (strftime('%s', 'now')),
   arguments    text,
   stack        text,
@@ -234,15 +235,19 @@ CREATE TABLE bug
   py_ver       text,
   user_details text,
   submitted    tinyint DEFAULT 0,
-  UNIQUE (arguments, stack)
+  UNIQUE (arguments, stack),
+  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE msg
 (
-  id       integer PRIMARY KEY AUTOINCREMENT,
-  msg_id   int UNIQUE NOT NULL,
-  created  int,
-  received int DEFAULT (strftime('%s', 'now')),
-  header   text,
-  body     text
+  id         integer PRIMARY KEY AUTOINCREMENT,
+  profile_id int,
+  msg_id     int NOT NULL,
+  created    int,
+  received   int DEFAULT (strftime('%s', 'now')),
+  header     text,
+  body       text,
+  UNIQUE (profile_id, msg_id),
+  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
