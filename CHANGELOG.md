@@ -17,12 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhance lint tools
 - Use `__main__.py` & `python -m sql` to package and build sqlite3 file
 
+### Added
+
+- SQL tables `bug` and `msg`, for bug reports & pushed message queue
+
 ## [0.0.4] - 2021-06-17
 
 ### Added
 
 - Empty `__init__.py` file to make packageable with `cli` repo (as a `git submodule`)
-- Tables `custom_foods` and respective `cf_dat`
+- SQL table `custom_foods` and respective `cf_dat`
 
 ### Changed
 
