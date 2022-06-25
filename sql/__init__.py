@@ -9,6 +9,7 @@ NT_DB_NAME = "nt.sqlite3"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CSV_DATA_DIR = os.path.join(SCRIPT_DIR, "data")
 
+
 def build_ntsqlite(verbose=False) -> bool:
     """Builds and inserts stock data into nt.sqlite3"""
     # cd into this script's directory
