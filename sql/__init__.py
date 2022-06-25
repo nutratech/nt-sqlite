@@ -7,7 +7,7 @@ import sqlite3
 
 NT_DB_NAME = "nt.sqlite3"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-
+CSV_DATA_DIR = os.path.join(SCRIPT_DIR, "data")
 
 def build_ntsqlite(verbose=False) -> bool:
     """Builds and inserts stock data into nt.sqlite3"""
@@ -32,7 +32,7 @@ def build_ntsqlite(verbose=False) -> bool:
 
     if verbose:
         print("-> Populate data")
-    for file_path in os.listdir("data"):
+    for file_path in os.listdir(CSV_DATA_DIR):
         if not file_path.endswith(".csv"):
             continue
         table_name = os.path.splitext(os.path.basename(file_path))[0]

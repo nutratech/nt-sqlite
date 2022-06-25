@@ -14,6 +14,11 @@ max_line_length = 100
 max_line_length = 88
 
 
+[*.sh]
+indent_style = tab
+max_line_length = 79
+
+
 [*.sql]
 indent_size = 2
 max_line_length = 80
