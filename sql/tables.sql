@@ -1,5 +1,5 @@
--- nt-sqlite, an sqlite3 database for nutratracker clients
--- Copyright (C) 2018-2022  Shane Jaroch <nutratracker@gmail.com>
+-- nt-sqlite, an sqlite3 database for embedded clients
+-- Copyright (C) 2018-2022  Shane Jaroch <chown_tee@proton.me>
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -13,7 +13,6 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 CREATE TABLE `version` (
   id integer PRIMARY KEY AUTOINCREMENT,
   `version` text NOT NULL UNIQUE,
@@ -26,7 +25,6 @@ CREATE TABLE `version` (
 ---------------------------------
 -- Equations
 ---------------------------------
-
 CREATE TABLE bmr_eqs (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE
@@ -41,7 +39,7 @@ CREATE TABLE bf_eqs (
 --------------------------------
 -- Profiles table
 --------------------------------
-
+-- TODO: active profile? Decide what belongs here, vs. in prefs.json (if at all)
 CREATE TABLE profiles (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE,
@@ -59,41 +57,8 @@ CREATE TABLE profiles (
 
 --
 --------------------------------
--- Biometrics
---------------------------------
-
-CREATE TABLE biometrics (
-  -- TODO: support custom biometrics and sync?
-  id integer PRIMARY KEY AUTOINCREMENT,
-  name text NOT NULL UNIQUE,
-  unit text,
-  created int DEFAULT (strftime ('%s', 'now'))
-);
-
-CREATE TABLE biometric_log (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  profile_id int NOT NULL,
-  date int DEFAULT (strftime ('%s', 'now')),
-  tags text,
-  notes text,
-  created int DEFAULT (strftime ('%s', 'now')),
-  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE
-);
-
-CREATE TABLE bio_log_entry (
-  log_id int NOT NULL,
-  biometric_id int NOT NULL,
-  value real NOT NULL,
-  PRIMARY KEY (log_id, biometric_id),
-  FOREIGN KEY (log_id) REFERENCES biometric_log (id) ON UPDATE CASCADE,
-  FOREIGN KEY (biometric_id) REFERENCES biometrics (id) ON UPDATE CASCADE
-);
-
---
---------------------------------
 -- Recipes
 --------------------------------
-
 CREATE TABLE recipes (
   id integer PRIMARY KEY AUTOINCREMENT,
   tagname text NOT NULL UNIQUE,
@@ -115,7 +80,6 @@ CREATE TABLE recipe_dat (
 --------------------------------
 -- Custom foods
 --------------------------------
-
 CREATE TABLE custom_foods (
   id integer PRIMARY KEY AUTOINCREMENT,
   tagname text NOT NULL UNIQUE,
@@ -137,7 +101,6 @@ CREATE TABLE cf_dat (
 --------------------------------
 -- Food (and recipe) logs
 --------------------------------
-
 CREATE TABLE meal_name (
   -- predefined, includes standard three, snacks, brunch, and 3 optional/extra meals
   id integer PRIMARY KEY AUTOINCREMENT,
@@ -157,6 +120,7 @@ CREATE TABLE food_log (
   FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE
 );
 
+-- TODO: support msre_id for recipes
 CREATE TABLE recipe_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   profile_id int NOT NULL,
@@ -175,7 +139,6 @@ CREATE TABLE recipe_log (
 --------------------------------
 -- Custom RDAs
 --------------------------------
-
 CREATE TABLE rda (
   profile_id int NOT NULL,
   nutr_id int NOT NULL,
@@ -191,8 +154,7 @@ CREATE TABLE rda (
 -- Case for no FK?  e.g. points to food OR custom_food?
 -- Leave edge cases potentially dangling (should never happen)
 -- Does this simplify imports with a potential `guid` column?
-
-CREATE TABLE food_costs (
+CREATE TABLE food_cost (
   food_id int NOT NULL,
   profile_id int NOT NULL,
   cost real NOT NULL,
@@ -200,3 +162,33 @@ CREATE TABLE food_costs (
   FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+--
+--------------------------------
+-- Bug report, message queues
+--------------------------------
+-- NOTE: be sure to SELECT version (latest) to include on bug report too
+CREATE TABLE bug (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  profile_id int,
+  created int DEFAULT (strftime ('%s', 'now')),
+  arguments text,
+  stack text,
+  os text,
+  py_ver text,
+  user_details text,
+  submitted tinyint DEFAULT 0,
+  UNIQUE (arguments, stack),
+  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE msg (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  profile_id int,
+  msg_id int NOT NULL,
+  created int,
+  received int DEFAULT (strftime ('%s', 'now')),
+  header text,
+  body text,
+  UNIQUE (profile_id, msg_id),
+  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
+);

@@ -9,7 +9,7 @@ _help:
 
 .PHONY: clean
 clean:	## Clean up build intermediates
-	rm -f  sql/nt.sqlite
+	rm -f  sql/nt.sqlite3
 	rm -rf .mypy_cache/ .pytest_cache/
 	find sql/ -name __pycache__ -o -name .pytest_cache | xargs rm -rf
 
@@ -20,14 +20,14 @@ build:	## Build sqlite image
 .PHONY: test
 test:	## Cursory sanity check
 	sqlite3 -csv -header \
-		sql/nt.sqlite \
+		sql/nt.sqlite3 \
 		'SELECT * FROM bf_eqs;' \
-		'SELECT * FROM biometrics;' \
 		'SELECT * FROM bmr_eqs;' \
 		'SELECT * FROM meal_name;' \
 		'SELECT * FROM version;' \
 
 .PHONY: install
 install:	## Copy sqlite file into ~/.nutra
+	# TODO: does this respect if the file exists already?
 	mkdir -p ~/.nutra
-	cp sql/nt.sqlite ~/.nutra
+	cp sql/nt.sqlite3 ~/.nutra
