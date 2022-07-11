@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - `food_costs` table
+- `biometrics` ad related tables
 
 ## [0.0.3] - 2021-05-24
 

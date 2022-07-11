@@ -22,12 +22,12 @@ test:	## Cursory sanity check
 	sqlite3 -csv -header \
 		sql/nt.sqlite3 \
 		'SELECT * FROM bf_eqs;' \
-		'SELECT * FROM biometrics;' \
 		'SELECT * FROM bmr_eqs;' \
 		'SELECT * FROM meal_name;' \
 		'SELECT * FROM version;' \
 
 .PHONY: install
 install:	## Copy sqlite file into ~/.nutra
+	# TODO: does this respect if the file exists already?
 	mkdir -p ~/.nutra
 	cp sql/nt.sqlite3 ~/.nutra
