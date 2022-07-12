@@ -15,15 +15,16 @@ clean:	## Clean up build intermediates
 
 .PHONY: build
 build:	## Build sqlite image
-	python -m sql
+	python3 -m sql
 
 .PHONY: test
 test:	## Cursory sanity check
 	sqlite3 -csv -header \
 		sql/nt.sqlite3 \
-		'SELECT * FROM bf_eqs;' \
-		'SELECT * FROM bmr_eqs;' \
+		'SELECT * FROM bf_eq;' \
+		'SELECT * FROM bmr_eq;' \
 		'SELECT * FROM meal_name;' \
+		'SELECT * FROM rda;' \
 		'SELECT * FROM version;' \
 
 .PHONY: install

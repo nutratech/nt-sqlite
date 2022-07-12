@@ -20,27 +20,28 @@ CREATE TABLE `version` (
   notes text
 );
 
+-- NOTE: INSERT INTO statements for version, bmr_eq, bf_eq? Don't maintain as CSV?
 -- TODO: enforce FK constraint across two DBs?
 --
 ---------------------------------
 -- Equations
 ---------------------------------
-CREATE TABLE bmr_eqs (
+CREATE TABLE bmr_eq (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE
 );
 
-CREATE TABLE bf_eqs (
+CREATE TABLE bf_eq (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE
 );
 
 --
 --------------------------------
--- Profiles table
+-- Profile table
 --------------------------------
 -- TODO: active profile? Decide what belongs here, vs. in prefs.json (if at all)
-CREATE TABLE profiles (
+CREATE TABLE profile (
   id integer PRIMARY KEY AUTOINCREMENT,
   name text NOT NULL UNIQUE,
   gender text,
@@ -51,15 +52,15 @@ CREATE TABLE profiles (
   bmr_eq_id int DEFAULT 1,
   bf_eq_id int DEFAULT 1,
   created int DEFAULT (strftime ('%s', 'now')),
-  FOREIGN KEY (bmr_eq_id) REFERENCES bmr_eqs (id) ON UPDATE CASCADE,
-  FOREIGN KEY (bf_eq_id) REFERENCES bf_eqs (id) ON UPDATE CASCADE
+  FOREIGN KEY (bmr_eq_id) REFERENCES bmr_eq (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (bf_eq_id) REFERENCES bf_eq (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --
 --------------------------------
--- Recipes
+-- Recipe
 --------------------------------
-CREATE TABLE recipes (
+CREATE TABLE recipe (
   id integer PRIMARY KEY AUTOINCREMENT,
   tagname text NOT NULL UNIQUE,
   name text NOT NULL UNIQUE,
@@ -73,14 +74,14 @@ CREATE TABLE recipe_dat (
   notes text,
   created int DEFAULT (strftime ('%s', 'now')),
   PRIMARY KEY (recipe_id, food_id),
-  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
+  FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --
 --------------------------------
 -- Custom foods
 --------------------------------
-CREATE TABLE custom_foods (
+CREATE TABLE custom_food (
   id integer PRIMARY KEY AUTOINCREMENT,
   tagname text NOT NULL UNIQUE,
   name text NOT NULL UNIQUE,
@@ -94,7 +95,7 @@ CREATE TABLE cf_dat (
   notes text,
   created int DEFAULT (strftime ('%s', 'now')),
   PRIMARY KEY (cf_id, nutr_id),
-  FOREIGN KEY (cf_id) REFERENCES custom_foods (id) ON UPDATE CASCADE
+  FOREIGN KEY (cf_id) REFERENCES custom_food (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --
@@ -112,15 +113,18 @@ CREATE TABLE food_log (
   profile_id int NOT NULL,
   date int DEFAULT (strftime ('%s', 'now')),
   meal_id int NOT NULL,
-  food_id int NOT NULL,
+  -- NOTE: do we want separate tables for logging `food_id` vs. `custom_food_id`?
+  food_id int,
+  custom_food_id int,
   msre_id int NOT NULL,
   amt real NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
-  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
-  FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE
+  FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (custom_food_id) REFERENCES custom_food (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- TODO: support msre_id for recipes
+-- TODO: support msre_id for recipe
 CREATE TABLE recipe_log (
   id integer PRIMARY KEY AUTOINCREMENT,
   profile_id int NOT NULL,
@@ -129,9 +133,9 @@ CREATE TABLE recipe_log (
   recipe_id int NOT NULL,
   grams real NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
-  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE,
-  FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE,
-  FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON UPDATE CASCADE
+  FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- TODO: CREATE TABLE custom_food_log ( ... );
@@ -144,7 +148,7 @@ CREATE TABLE rda (
   nutr_id int NOT NULL,
   rda real NOT NULL,
   PRIMARY KEY (profile_id, nutr_id),
-  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE
+  FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --
@@ -155,11 +159,13 @@ CREATE TABLE rda (
 -- Leave edge cases potentially dangling (should never happen)
 -- Does this simplify imports with a potential `guid` column?
 CREATE TABLE food_cost (
-  food_id int NOT NULL,
+  food_id int,
+  custom_food_id int,
   profile_id int NOT NULL,
   cost real NOT NULL,
-  PRIMARY KEY (food_id, profile_id),
-  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
+  PRIMARY KEY (food_id, custom_food_id, profile_id),
+  FOREIGN KEY (custom_food_id) REFERENCES custom_food (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --
@@ -172,13 +178,16 @@ CREATE TABLE bug (
   profile_id int,
   created int DEFAULT (strftime ('%s', 'now')),
   arguments text,
+  activity text,
   stack text,
-  os text,
-  py_ver text,
-  user_details text,
+  -- e.g. OS, Python / Android version
+  client_info json,
+  -- e.g. app version
+  app_info json,
+  user_details json,
   submitted tinyint DEFAULT 0,
   UNIQUE (arguments, stack),
-  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE msg (
@@ -190,5 +199,5 @@ CREATE TABLE msg (
   header text,
   body text,
   UNIQUE (profile_id, msg_id),
-  FOREIGN KEY (profile_id) REFERENCES profiles (id) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
