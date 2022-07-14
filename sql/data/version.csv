@@ -5,3 +5,4 @@ id,version,created,notes
 4,0.0.3,2021-05-24,general cleanup
 5,0.0.4,2021-06-17,"add custom foods tables (custom_foods, cf_dat)"
 6,0.0.5,2022-07-11,remove biometrics
+7,0.0.6,2022-07-14,"rename tables, start to organize for plugins"

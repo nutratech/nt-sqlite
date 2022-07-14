@@ -13,6 +13,7 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+--
 CREATE TABLE `version` (
   id integer PRIMARY KEY AUTOINCREMENT,
   `version` text NOT NULL UNIQUE,
@@ -24,15 +25,15 @@ CREATE TABLE `version` (
 -- TODO: enforce FK constraint across two DBs?
 --
 ---------------------------------
--- Equations
+-- Formula / Equation
 ---------------------------------
 CREATE TABLE bmr_eq (
-  id integer PRIMARY KEY AUTOINCREMENT,
+  id integer PRIMARY KEY,
   name text NOT NULL UNIQUE
 );
 
 CREATE TABLE bf_eq (
-  id integer PRIMARY KEY AUTOINCREMENT,
+  id integer PRIMARY KEY,
   name text NOT NULL UNIQUE
 );
 
@@ -40,20 +41,60 @@ CREATE TABLE bf_eq (
 --------------------------------
 -- Profile table
 --------------------------------
--- TODO: active profile? Decide what belongs here, vs. in prefs.json (if at all)
+-- TODO: active profile?
+--  Decide what belongs here vs. in "prefs.json" (where to maintain xyz the easiest, if at all?)
 CREATE TABLE profile (
   id integer PRIMARY KEY AUTOINCREMENT,
+  uuid int NOT NULL DEFAULT (RANDOM()),
   name text NOT NULL UNIQUE,
   gender text,
   dob date,
   act_lvl int DEFAULT 2, -- [1, 2, 3, 4, 5]
   goal_wt real,
-  goal_bf real,
+  goal_bf real DEFAULT 18,
   bmr_eq_id int DEFAULT 1,
   bf_eq_id int DEFAULT 1,
   created int DEFAULT (strftime ('%s', 'now')),
   FOREIGN KEY (bmr_eq_id) REFERENCES bmr_eq (id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (bf_eq_id) REFERENCES bf_eq (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- TODO: how much of this belongs in plugins/extensions?
+--  Do we want to support everything in SQL, or provide a more basic setup and
+--  encourage community-driven CSV/zip plugins?
+--
+--------------------------------
+-- Custom RDA values
+--------------------------------
+CREATE TABLE rda (
+  profile_id int NOT NULL,
+  nutr_id int NOT NULL,
+  rda real NOT NULL,
+  PRIMARY KEY (profile_id, nutr_id),
+  FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- TODO: do we want GUID / UUID values on any of these?
+--  Does that simplify potential CSV imports? Having a GUID / UUID column?
+--
+--------------------------------
+-- Custom food
+--------------------------------
+CREATE TABLE custom_food (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  tagname text NOT NULL UNIQUE,
+  name text NOT NULL UNIQUE,
+  created int DEFAULT (strftime ('%s', 'now'))
+);
+
+CREATE TABLE cf_dat (
+  cf_id int NOT NULL,
+  nutr_id int NOT NULL, -- NOTE: no FK constraining on USDA
+  nutr_val real NOT NULL,
+  notes text,
+  created int DEFAULT (strftime ('%s', 'now')),
+  PRIMARY KEY (cf_id, nutr_id),
+  FOREIGN KEY (cf_id) REFERENCES custom_food (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --
@@ -77,25 +118,15 @@ CREATE TABLE recipe_dat (
   FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
---
---------------------------------
--- Custom foods
---------------------------------
-CREATE TABLE custom_food (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  tagname text NOT NULL UNIQUE,
-  name text NOT NULL UNIQUE,
-  created int DEFAULT (strftime ('%s', 'now'))
-);
-
-CREATE TABLE cf_dat (
-  cf_id int NOT NULL,
-  nutr_id int NOT NULL, -- no FK constraining on usda :[
-  nutr_val real NOT NULL,
+CREATE TABLE recipe_dat_cf (
+  recipe_id int NOT NULL,
+  custom_food_id int NOT NULL,
+  grams real NOT NULL,
   notes text,
   created int DEFAULT (strftime ('%s', 'now')),
-  PRIMARY KEY (cf_id, nutr_id),
-  FOREIGN KEY (cf_id) REFERENCES custom_food (id) ON UPDATE CASCADE ON DELETE CASCADE
+  PRIMARY KEY (recipe_id, custom_food_id),
+  FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (custom_food_id) REFERENCES cf (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --
@@ -108,13 +139,25 @@ CREATE TABLE meal_name (
   name text NOT NULL
 );
 
-CREATE TABLE food_log (
+CREATE TABLE log_food (
   id integer PRIMARY KEY AUTOINCREMENT,
   profile_id int NOT NULL,
   date int DEFAULT (strftime ('%s', 'now')),
   meal_id int NOT NULL,
-  -- NOTE: do we want separate tables for logging `food_id` vs. `custom_food_id`?
-  food_id int,
+  food_id int NOT NULL,
+  msre_id int NOT NULL,
+  amt real NOT NULL,
+  created int DEFAULT (strftime ('%s', 'now')),
+  FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE log_cf (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  profile_id int NOT NULL,
+  date int DEFAULT (strftime ('%s', 'now')),
+  meal_id int NOT NULL,
+  food_id int NOT NULL,
   custom_food_id int,
   msre_id int NOT NULL,
   amt real NOT NULL,
@@ -125,7 +168,7 @@ CREATE TABLE food_log (
 );
 
 -- TODO: support msre_id for recipe
-CREATE TABLE recipe_log (
+CREATE TABLE log_recipe (
   id integer PRIMARY KEY AUTOINCREMENT,
   profile_id int NOT NULL,
   date int DEFAULT (strftime ('%s', 'now')),
@@ -138,32 +181,23 @@ CREATE TABLE recipe_log (
   FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- TODO: CREATE TABLE custom_food_log ( ... );
 --
 --------------------------------
--- Custom RDAs
+-- Food cost
 --------------------------------
-CREATE TABLE rda (
+CREATE TABLE cost_food (
+  food_id int NOT NULL,
   profile_id int NOT NULL,
-  nutr_id int NOT NULL,
-  rda real NOT NULL,
-  PRIMARY KEY (profile_id, nutr_id),
+  cost real NOT NULL,
+  PRIMARY KEY (food_id, profile_id),
   FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
---
---------------------------------
--- Food costs
---------------------------------
--- Case for no FK?  e.g. points to food OR custom_food?
--- Leave edge cases potentially dangling (should never happen)
--- Does this simplify imports with a potential `guid` column?
-CREATE TABLE food_cost (
-  food_id int,
-  custom_food_id int,
+CREATE TABLE cost_cf (
+  custom_food_id int NOT NULL,
   profile_id int NOT NULL,
   cost real NOT NULL,
-  PRIMARY KEY (food_id, custom_food_id, profile_id),
+  PRIMARY KEY (custom_food_id, profile_id),
   FOREIGN KEY (custom_food_id) REFERENCES custom_food (id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
