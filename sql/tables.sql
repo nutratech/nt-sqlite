@@ -145,8 +145,7 @@ CREATE TABLE log_recipe (
   grams real NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (meal_id) REFERENCES meal_name (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --
