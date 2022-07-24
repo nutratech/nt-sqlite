@@ -7,9 +7,9 @@ SELECT
   name,
   COUNT(recipe_id) AS n_foods,
   SUM(grams) AS grams,
-  created
+  recipe.created AS created
 FROM
-  recipes
+  recipe
   LEFT JOIN recipe_dat ON recipe_id = id
 GROUP BY
   id;
