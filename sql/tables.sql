@@ -99,38 +99,6 @@ CREATE TABLE cf_dat (
 
 --
 --------------------------------
--- Recipe
---------------------------------
-CREATE TABLE recipe (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  tagname text NOT NULL UNIQUE,
-  name text NOT NULL UNIQUE,
-  created int DEFAULT (strftime ('%s', 'now'))
-);
-
-CREATE TABLE recipe_dat (
-  recipe_id int NOT NULL,
-  food_id int NOT NULL,
-  grams real NOT NULL,
-  notes text,
-  created int DEFAULT (strftime ('%s', 'now')),
-  PRIMARY KEY (recipe_id, food_id),
-  FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE recipe_dat_cf (
-  recipe_id int NOT NULL,
-  custom_food_id int NOT NULL,
-  grams real NOT NULL,
-  notes text,
-  created int DEFAULT (strftime ('%s', 'now')),
-  PRIMARY KEY (recipe_id, custom_food_id),
-  FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (custom_food_id) REFERENCES cf (id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
---
---------------------------------
 -- Food (and recipe) logs
 --------------------------------
 CREATE TABLE meal_name (
@@ -173,7 +141,7 @@ CREATE TABLE log_recipe (
   profile_id int NOT NULL,
   date int DEFAULT (strftime ('%s', 'now')),
   meal_id int NOT NULL,
-  recipe_id int NOT NULL,
+  recipe_uuid text NOT NULL,
   grams real NOT NULL,
   created int DEFAULT (strftime ('%s', 'now')),
   FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE,
