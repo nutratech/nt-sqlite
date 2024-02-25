@@ -1,4 +1,5 @@
 """Call this with python -m sql"""
+
 # pylint: disable=import-error
 from . import build_ntsqlite
 
