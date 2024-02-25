@@ -179,7 +179,8 @@ CREATE TABLE bug (
   profile_id int,
   created int DEFAULT (strftime ('%s', 'now')),
   arguments text,
-  repr text,
+  exc_type text,
+  exc_msg text,
   stack text,
   -- e.g. OS, Python / Android version
   client_info json,
