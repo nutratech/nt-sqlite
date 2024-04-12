@@ -18,7 +18,7 @@ def build_ntsqlite(verbose: bool = False) -> bool:
     if verbose:
         print("Cleanup...")
     if os.path.isfile(NT_DB_NAME):
-        os.remove(NT_DB_NAME)
+        os.remove(NT_DB_NAME)  # pragma: no cover
 
     if verbose:
         # pylint: disable=consider-using-f-string
@@ -62,4 +62,4 @@ def build_ntsqlite(verbose: bool = False) -> bool:
 
 
 if __name__ == "__main__":
-    build_ntsqlite(verbose=True)
+    build_ntsqlite(verbose=True)  # pragma: no cover
