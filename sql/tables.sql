@@ -14,12 +14,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --
-CREATE TABLE `version` (
-  id integer PRIMARY KEY AUTOINCREMENT,
-  `version` text NOT NULL UNIQUE,
-  created date NOT NULL,
-  notes text
-);
+PRAGMA user_version = 9;
 
 -- NOTE: INSERT INTO statements for version, bmr_eq, bf_eq? Don't maintain as CSV?
 -- TODO: enforce FK constraint across two DBs?
@@ -50,6 +45,8 @@ CREATE TABLE profile (
   gender text,
   dob date,
   act_lvl int DEFAULT 2, -- [1, 2, 3, 4, 5]
+  height real, -- cm
+  weight real, -- kg
   goal_wt real,
   goal_bf real DEFAULT 18,
   bmr_eq_id int DEFAULT 1,

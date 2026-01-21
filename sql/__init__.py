@@ -55,10 +55,51 @@ def build_ntsqlite(verbose: bool = False) -> bool:
 
     cur.close()
     con.commit()
+
+    if verbose:
+        print_stats(con)
+
     con.close()
     if verbose:
         print("\nDone!")
     return True
+
+
+def print_stats(con: sqlite3.Connection) -> None:
+    """Prints database statistics"""
+    cur = con.cursor()
+    print("-" * 40)
+    print(f"Database: {NT_DB_NAME}")
+
+    if os.path.exists(NT_DB_NAME):
+        size_bytes = os.path.getsize(NT_DB_NAME)
+        print(f"Size:     {size_bytes / 1024:.2f} KB")
+
+    cur.execute("PRAGMA user_version")
+    version = cur.fetchone()[0]
+    print(f"Version:  {version}")
+    print("-" * 40)
+    print("Table Statistics:")
+    print("-" * 40)
+    print(f"{'Table':<20} | {'Rows':>10}")
+    print("-" * 40)
+
+    cur.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")
+    tables = cur.fetchall()
+
+    total_rows = 0
+    for (table,) in tables:
+        if table == "sqlite_sequence":
+            continue
+        cur.execute(f"SELECT COUNT(*) FROM {table}")
+        count = cur.fetchone()[0]
+        total_rows += count
+        print(f"{table:<20} | {count:>10,}")
+
+    print("-" * 40)
+    print(f"{'TOTAL':<20} | {total_rows:>10,}")
+    print("-" * 40)
+    cur.close()
 
 
 if __name__ == "__main__":
