@@ -77,6 +77,19 @@ CREATE TABLE rda (
   FOREIGN KEY (profile_id) REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+--
+--------------------------------
+-- Custom measures
+--------------------------------
+CREATE TABLE measure (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  name text NOT NULL,
+  unit text NOT NULL,
+  quantity real NOT NULL,
+  quantity_text text NOT NULL,
+  grams real NOT NULL
+);
+
 -- TODO: do we want GUID / UUID values on any of these?
 --  Does that simplify potential CSV imports? Having a GUID / UUID column?
 --
@@ -102,7 +115,29 @@ CREATE TABLE cf_dat (
 
 --
 --------------------------------
--- Food (and recipe) logs
+-- Recipes
+--------------------------------
+
+CREATE TABLE recipe (
+  id integer PRIMARY KEY AUTOINCREMENT,
+  uuid text NOT NULL UNIQUE DEFAULT (hex(randomblob(24))),
+  name text NOT NULL,
+  instructions text,
+  created int DEFAULT (strftime ('%s', 'now'))
+);
+
+CREATE TABLE recipe_ingredient (
+  recipe_id int NOT NULL,
+  food_id int NOT NULL,
+  amount real NOT NULL,
+  msre_id int,
+  FOREIGN KEY (recipe_id) REFERENCES recipe (id) ON DELETE CASCADE,
+  FOREIGN KEY (msre_id) REFERENCES measure (id) ON UPDATE CASCADE ON DELETE SET NULL
+);
+
+--
+--------------------------------
+-- Custom Logs: Food and Recipe
 --------------------------------
 CREATE TABLE meal_name (
   -- predefined, includes standard three, snacks, brunch, and 3 optional/extra meals
