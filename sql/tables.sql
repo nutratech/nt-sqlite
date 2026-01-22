@@ -14,9 +14,11 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --
-PRAGMA user_version = 9;
 
--- NOTE: INSERT INTO statements for version, bmr_eq, bf_eq? Don't maintain as CSV?
+PRAGMA user_version = 9;
+PRAGMA application_id = 1314145346; -- 'NTDB'
+
+-- NOTE: INSERT INTO statements for bmr_eq, bf_eq? Don't maintain as CSV?
 -- TODO: enforce FK constraint across two DBs?
 --
 ---------------------------------
@@ -24,12 +26,16 @@ PRAGMA user_version = 9;
 ---------------------------------
 CREATE TABLE bmr_eq (
   id integer PRIMARY KEY,
-  name text NOT NULL UNIQUE
+  name text NOT NULL UNIQUE,
+  friendly_name text NOT NULL UNIQUE,
+  requires text NOT NULL
 );
 
 CREATE TABLE bf_eq (
   id integer PRIMARY KEY,
-  name text NOT NULL UNIQUE
+  name text NOT NULL UNIQUE,
+  friendly_name text NOT NULL UNIQUE,
+  requires text NOT NULL
 );
 
 --

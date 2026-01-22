@@ -1,5 +1,5 @@
-id,name
-1,HARRIS_BENEDICT
-2,KATCH_MACARDLE
-3,MIFFLIN_ST_JEOR
-4,CUNNINGHAM
+id,name,friendly_name,requires
+1,HARRIS_BENEDICT,Harris Benedict,activity_factor;weight;body_fat
+2,KATCH_MACARDLE,Katch Macardle,activity_factor;weight;body_fat
+3,MIFFLIN_ST_JEOR,Mifflin St Jeor,activity_factor;weight;gender;height;age
+4,CUNNINGHAM,Cunningham,activity_factor;weight;gender;height;age

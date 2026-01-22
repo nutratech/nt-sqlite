@@ -25,7 +25,10 @@ test:	## Cursory sanity check
 		'SELECT * FROM bmr_eq;' \
 		'SELECT * FROM meal_name;' \
 		'SELECT * FROM rda;' \
-		'SELECT * FROM version;' \
+		'PRAGMA user_version;' \
+		'PRAGMA application_id;' \
+		'PRAGMA foreign_keys;' \
+		'PRAGMA integrity_check;' \
 
 .PHONY: install
 install:	## Copy sqlite file into ~/.nutra

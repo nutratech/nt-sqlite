@@ -1,4 +1,4 @@
-id,name
-1,NAVY
-2,3SITE
-3,7SITE
+id,name,friendly_name,requires
+1,NAVY,Navy,"gender, height (cm), waist (cm), neck (cm), and (if female) hip (cm)"
+2,3SITE,3 Site calipers,"gender, age, chest (mm), abdominal (mm), and thigh (mm)"
+3,7SITE,7 Site calipers,"gender, age, chest (mm), abdominal (mm), thigh (mm), tricep (mm), sub (mm), sup (mm), and mid (mm)"
