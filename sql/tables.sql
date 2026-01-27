@@ -123,6 +123,7 @@ CREATE TABLE recipe (
   uuid text NOT NULL UNIQUE DEFAULT (hex(randomblob(24))),
   name text NOT NULL,
   instructions text,
+  is_deleted integer DEFAULT 0,
   created int DEFAULT (strftime ('%s', 'now'))
 );
 
